@@ -1,7 +1,24 @@
 from flask import Flask, render_template, request, session, redirect, url_for
+from login import login, logout, loginRequired
 
 app = Flask(__name__)
 app.secret_key = 'griffin'
+
+# username = email
+@app.route('/login', methods=['GET', 'POST'])
+def login_view():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        
+        if login(username, password):
+            return redirect(url_for('index'))
+    return render_template('login.html')
+
+@app.route('/logout')
+def logout_view():
+    logout()
+    return redirect(url_for('login_view'))
 
 questions = [
     {
@@ -50,6 +67,7 @@ def index():
     session['chat_history'] = []
     session['post_survey_answers'] = []
     return render_template('index.html')
+
 @app.route('/quiz', methods=['GET', 'POST'])
 def quiz():
     if 'question_index' not in session:
