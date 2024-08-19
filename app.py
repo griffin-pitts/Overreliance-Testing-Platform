@@ -1,7 +1,14 @@
-from flask import Flask, render_template, request, session, redirect, url_for
+from flask import Flask, render_template, request, session, redirect, url_for, jsonify
+from openai import OpenAI
+import os
+import logging
 
 app = Flask(__name__)
 app.secret_key = 'griffin'
+client = OpenAI(api_key=API_KEY)
+
+# Set up logging
+logging.basicConfig(level=logging.DEBUG)
 
 questions = [
     {
@@ -43,6 +50,7 @@ final_survey_questions = [
     }
 ]
 
+
 @app.route('/')
 def index():
     session.clear()
@@ -50,6 +58,8 @@ def index():
     session['chat_history'] = []
     session['post_survey_answers'] = []
     return render_template('index.html')
+
+
 @app.route('/quiz', methods=['GET', 'POST'])
 def quiz():
     if 'question_index' not in session:
@@ -58,29 +68,44 @@ def quiz():
         session['chat_history'] = []
 
     if request.method == 'POST':
-        if 'chat_message' in request.form:
-            user_message = request.form['chat_message']
-            bot_response = f"Bot: I received your message: {user_message}"
-            session['chat_history'].append(('User', user_message))
-            session['chat_history'].append(('Bot', bot_response))
-            return redirect(url_for('quiz'))
-        elif 'answer' in request.form:
+        if 'answer' in request.form:
             session['last_answer'] = request.form['answer']
             return redirect(url_for('post_survey'))
 
     if session['question_index'] < len(questions):
         question = questions[session['question_index']]
-        return render_template('question.html', question=question, question_number=session['question_index'] + 1, chat_history=session['chat_history'])
+        return render_template('question.html', question=question, question_number=session['question_index'] + 1,
+                               chat_history=session['chat_history'])
     else:
         return redirect(url_for('final_survey'))
 
+
 @app.route('/chat', methods=['POST'])
 def chat():
-    user_message = request.form['message']
-    bot_response = f"Bot: I received your message: {user_message}"
-    session['chat_history'].append(('User', user_message))
-    session['chat_history'].append(('Bot', bot_response))
-    return bot_response
+    user_message = request.json.get('message')
+    if not user_message:
+        return jsonify({"error": "No message provided"}), 400
+
+    try:
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are a helpful coding assistant."},
+                {"role": "user", "content": user_message}
+            ],
+            max_tokens=150
+        )
+        bot_response = response.choices[0].message.content
+
+        session['chat_history'] = session.get('chat_history', [])
+        session['chat_history'].append(('User', user_message))
+        session['chat_history'].append(('Bot', bot_response))
+
+        return jsonify({"response": bot_response})
+    except Exception as e:
+        app.logger.error(f"OpenAI API error: {str(e)}")
+        return jsonify({"error": f"An error occurred: {str(e)}"}), 500
+
 
 @app.route('/post_survey', methods=['GET', 'POST'])
 def post_survey():
@@ -104,14 +129,17 @@ def final_survey():
         overall_trust = request.form.get('overall_trust')
         chatbot_helpfulness = request.form.get('chatbot_helpfulness')
         if overall_trust and chatbot_helpfulness:
-            session['final_survey_answers'] = {'overall_trust': overall_trust, 'chatbot_helpfulness': chatbot_helpfulness}
+            session['final_survey_answers'] = {'overall_trust': overall_trust,
+                                               'chatbot_helpfulness': chatbot_helpfulness}
         return redirect(url_for('thank_you'))
 
     return render_template('survey.html', questions=final_survey_questions, survey_type='Final')
 
+
 @app.route('/thank_you')
 def thank_you():
     return render_template('thank_you.html', chat_history=session['chat_history'])
+
 
 if __name__ == '__main__':
     app.run(debug=True)
