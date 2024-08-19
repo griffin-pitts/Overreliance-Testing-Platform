@@ -11,6 +11,12 @@
 *.sln
 *.sw?
 
+# Dependency folders
+node_modules
+dist
+dist-ssr
+*.local
+
 # Logs
 logs
 *.log
