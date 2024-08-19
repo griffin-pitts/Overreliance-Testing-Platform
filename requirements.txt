@@ -2,3 +2,4 @@ flask==2.3.2
 cryptography==41.0.1
 pymongo==4.2.0
 python-dotenv==1.0.0
+openai==1.40.8
