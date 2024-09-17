@@ -1,6 +1,6 @@
 import os
 import logging
-from flask import Blueprint, render_template, request, session, redirect, url_for, jsonify
+from flask import Blueprint, render_template, request, session, redirect, url_for, jsonify, flash
 from .utils.db import insert_user_response
 from .utils.questions import questions, post_survey_questions, final_survey_questions
 from dotenv import load_dotenv, find_dotenv
@@ -21,9 +21,37 @@ logging.basicConfig(level=logging.DEBUG)
 def index():
     session.clear()
     session['question_index'] = 0
-    session['chat_history'] = []
+    session['answers'] = []
     session['post_survey_answers'] = []
+    session['fianl_survey_answers'] = []
+    session['chat_history'] = []
+    session['user'] = []
+    session['user_id'] = []
     return render_template('index.html')
+
+@main_bp.route('/consent')
+def collect_consent():
+    return render_template('consent.html')
+
+@main_bp.route('/validate_email', methods=['POST'])
+def validate_email():
+    email = request.form.get('email')
+    user_id = request.form.get('id_number')
+    
+    if not email:
+        flash('Email is required', 'error')
+        return redirect(url_for('index'))
+    
+    # Check if email ends with .edu
+    if not email.endswith('ufl.edu'):
+        flash('Please enter a valid ufl.edu email address', 'error')
+        return redirect(url_for('main.index'))
+    
+    # Redirect to the quiz page if the email is valid
+    session['user'] = email
+    if user_id:
+        session['user_id'] = user_id
+    return redirect(url_for('main.collect_consent'))  # Change 'quiz' to the route that handles the quiz
 
 
 @main_bp.route('/quiz', methods=['GET', 'POST'])
@@ -96,13 +124,25 @@ def post_survey():
 @main_bp.route('/final_survey', methods=['GET', 'POST'])
 def final_survey():
     if request.method == 'POST':
-        insert_user_response('66bf718f19aab530b26cd132', session['answers'])
+        
 
         overall_trust = request.form.get('overall_trust')
         chatbot_helpfulness = request.form.get('chatbot_helpfulness')
         if overall_trust and chatbot_helpfulness:
             session['final_survey_answers'] = {'overall_trust': overall_trust,
                                                'chatbot_helpfulness': chatbot_helpfulness}
+        
+        # Database data preparation
+        #TODO
+        # Database insert
+        # insert_user_response('66bf718f19aab530b26cd132', session['answers'])
+        print(session['user'])
+        if session['user_id']:
+            print(session['user_id'])
+        print(session['answers'])
+        print(session['post_survey_answers'])
+        print(session['final_survey_answers'])
+
         return redirect(url_for('main.thank_you'))
 
     return render_template('survey.html', questions=final_survey_questions, survey_type='Final')

@@ -1,5 +1,17 @@
 {% extends "base.html" %} {% block content %}
 <h1>Welcome to the Python Quiz</h1>
 <p>Test your knowledge with these Python programming questions!</p>
-<a href="{{ url_for('main.quiz') }}" class="btn">Start Quiz</a>
+<form action="{{ url_for('main.validate_email') }}" method="post">
+  <label for="email">Enter your email:</label>
+  <input type="email" id="email" name="email" required />
+  <label for="id_number">UFID(optional):</label>
+  <input
+    type="text"
+    id="id_number"
+    maxlength="8"
+    pattern="[0-9]{8}"
+    name="id_number"
+  />
+  <button type="submit">Start Quiz</button>
+</form>
 {% endblock %}
