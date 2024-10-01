@@ -3,6 +3,7 @@ import logging
 from flask import Blueprint, render_template, request, session, redirect, url_for, jsonify, flash
 from .utils.db import insert_user_response
 from .utils.questions import questions, post_survey_questions, final_survey_questions
+from .utils.demographics import demographics_questions
 from dotenv import load_dotenv, find_dotenv
 from openai import OpenAI
 
@@ -23,7 +24,7 @@ def index():
     session['question_index'] = 0
     session['answers'] = []
     session['post_survey_answers'] = []
-    session['fianl_survey_answers'] = []
+    session['final_survey_answers'] = []
     session['chat_history'] = []
     session['user'] = []
     session['user_id'] = []
@@ -32,6 +33,26 @@ def index():
 @main_bp.route('/consent')
 def collect_consent():
     return render_template('consent.html')
+
+@main_bp.route('/demographics')
+def collect_demographics():
+    return render_template('demographics.html')
+    
+    # if 'demographics_index' not in session:
+    #     session['demographics_index'] = 0
+    # if 'demographics_answers' not in session:
+    #     session['demographics_answers'] = []
+
+    # if request.method == 'POST':
+    #     if 'answer' in request.form:
+    #         session['last_demographics_answer'] = request.form['demographics_answer']
+    #         session['demographics_answers'].append(session['last_demographics_answer'])
+
+    # if session['demographics_index'] < len(demographics_questions):
+    #     question = questions[session['question_index']]
+    #     return render_template('demographics.html', question=question, question_number=session['question_index'] + 1)
+    # else:
+    #     return redirect(url_for('main.quiz'))
 
 @main_bp.route('/validate_email', methods=['POST'])
 def validate_email():
@@ -80,11 +101,16 @@ def quiz():
 
 @main_bp.route('/chat', methods=['POST'])
 def chat():
+
     user_message = request.json.get('message')
     if not user_message:
+        print("error1")
         return jsonify({"error": "No message provided"}), 400
+    
+    print("error0")
 
     try:
+
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
@@ -99,9 +125,12 @@ def chat():
         session['chat_history'].append(('User', user_message))
         session['chat_history'].append(('Bot', bot_response))
 
+        print("error2")
+
         return jsonify({"response": bot_response})
     except Exception as e:
         main_bp.logger.error(f"OpenAI API error: {str(e)}")
+        print("error3")
         return jsonify({"error": f"An error occurred: {str(e)}"}), 500
 
 

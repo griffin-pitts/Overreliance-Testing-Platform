@@ -25,7 +25,7 @@
   </form>
 </div>
 
-<script>
+<!-- <script>
   function sendMessage() {
     var message = document.getElementById("chat-message").value;
     fetch("/chat", {
@@ -45,5 +45,28 @@
         chatHistory.scrollTop = chatHistory.scrollHeight;
       });
   }
+</script> -->
+
+<script>
+  function sendMessage() {
+    var message = document.getElementById("chat-message").value;
+    fetch("/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ message: message }),
+    })
+      .then((response) => response.text())
+      .then((data) => {
+        var chatHistory = document.getElementById("chat-history");
+        chatHistory.innerHTML +=
+          "<p><strong>User:</strong> " + message + "</p>";
+        chatHistory.innerHTML += "<p>" + data + "</p>";
+        document.getElementById("chat-message").value = "";
+        chatHistory.scrollTop = chatHistory.scrollHeight;
+      });
+  }
 </script>
+
 {% endblock %}
