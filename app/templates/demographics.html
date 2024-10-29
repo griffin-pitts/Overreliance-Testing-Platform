@@ -1,6 +1,262 @@
 {% extends "base.html" %} {% block content %}
-<h1>Demographics</h1>
-<p>You are a student!</p>
-<a href="{{ url_for('main.quiz') }}" class="btn">Submit</a>
-<a href="{{ url_for('main.index') }}" class="btn">Exit</a>
+<div class="container">
+  <form
+    method="POST"
+    action="{{ url_for('main.collect_demographics') }}"
+    class="demographics-form"
+  >
+    <div class="form-section">
+      <h2>Demographics</h2>
+      <div class="basic-info">
+        <div class="form-row">
+          <div class="form-field">
+            <label>Age</label>
+            <input
+              type="number"
+              name="age"
+              min="16"
+              max="100"
+              required
+              placeholder="Enter your age"
+            />
+          </div>
+
+          <div class="form-field">
+            <label>Year in College</label>
+            <select name="year" required>
+              <option value="">Select year</option>
+              <option value="1">First Year</option>
+              <option value="2">Second Year</option>
+              <option value="3">Third Year</option>
+              <option value="4">Fourth Year</option>
+              <option value="5">Fifth Year</option>
+              <option value="grad">Graduate Student</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label>Gender Identity</label>
+            <select name="gender" required>
+              <option value="">Select gender identity</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="non-binary">Non-binary/Third gender</option>
+              <option value="no-disclose">Prefer not to disclose</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label>Current GPA</label>
+            <select name="gpa" required>
+              <option value="">Select GPA range</option>
+              <option value="4.0">3.75 - 4.00</option>
+              <option value="3.75">3.50 - 3.74</option>
+              <option value="3.5">3.25 - 3.49</option>
+              <option value="3.25">3.00 - 3.24</option>
+              <option value="3.0">2.50 - 2.99</option>
+              <option value="2.5">Below 2.50</option>
+              <option value="none">Prefer not to disclose</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-field">
+            <label>Major</label>
+            <input
+              type="text"
+              name="major"
+              required
+              placeholder="Enter your major"
+              style="max-width: 93%"
+            />
+          </div>
+
+          <div class="form-field">
+            <label>Minor (if applicable)</label>
+            <input
+              type="text"
+              name="minor"
+              placeholder="Enter your minor (optional)"
+              style="max-width: 93%"
+            />
+          </div>
+        </div>
+
+        <div class="form-field wide">
+          <label>Select all that apply:</label>
+          <div class="checkbox-grid">
+            <div class="checkbox-item">
+              <input type="checkbox" id="eth1" name="ethnicity" value="white" />
+              <label for="eth1">White/Caucasian</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="eth2" name="ethnicity" value="black" />
+              <label for="eth2">Black/African American</label>
+            </div>
+            <div class="checkbox-item">
+              <input
+                type="checkbox"
+                id="eth3"
+                name="ethnicity"
+                value="hispanic"
+              />
+              <label for="eth3">Hispanic/Latino</label>
+            </div>
+            <div class="checkbox-item">
+              <input type="checkbox" id="eth4" name="ethnicity" value="asian" />
+              <label for="eth4">Asian</label>
+            </div>
+            <div class="checkbox-item">
+              <input
+                type="checkbox"
+                id="eth5"
+                name="ethnicity"
+                value="native"
+              />
+              <label for="eth5">Native American/Alaska Native</label>
+            </div>
+            <div class="checkbox-item">
+              <input
+                type="checkbox"
+                id="eth6"
+                name="ethnicity"
+                value="pacific"
+              />
+              <label for="eth6">Pacific Islander</label>
+            </div>
+            <div class="checkbox-item">
+              <input
+                type="checkbox"
+                id="eth7"
+                name="ethnicity"
+                value="multiracial"
+              />
+              <label for="eth7">Multiracial</label>
+            </div>
+            <div class="checkbox-item">
+              <input
+                type="checkbox"
+                id="eth8"
+                name="ethnicity"
+                value="no-disclose"
+              />
+              <label for="eth8">Prefer not to disclose</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label>How often do you use AI tools?</label>
+          <select name="ai_frequency" required>
+            <option value="">Select frequency</option>
+            <option value="never">Never use</option>
+            <option value="rarely">Once a month or less</option>
+            <option value="monthly">2-3 times per month</option>
+            <option value="weekly">1-2 times per week</option>
+            <option value="frequently">3-6 times per week</option>
+            <option value="daily">Daily</option>
+            <option value="multiple_daily">Multiple times per day</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label>How long have you been using AI tools?</label>
+          <select name="ai_experience" required>
+            <option value="">Select experience</option>
+            <option value="none">No prior experience</option>
+            <option value="novice">Less than 6 months</option>
+            <option value="intermediate">6-12 months</option>
+            <option value="experienced">1-2 years</option>
+            <option value="expert">2+ years</option>
+          </select>
+        </div>
+
+        <div class="form-field wide">
+          <label
+            >Select all that apply to your AI usage relating to coding:</label
+          >
+          <div class="checkbox-grid">
+            <div class="checkbox-item">
+              <input
+                type="checkbox"
+                id="use1"
+                name="ai_use_type"
+                value="debugging"
+              />
+              <label for="use1">Finding and fixing errors in code</label>
+            </div>
+            <div class="checkbox-item">
+              <input
+                type="checkbox"
+                id="use2"
+                name="ai_use_type"
+                value="learning"
+              />
+              <label for="use2">Understanding new programming topics</label>
+            </div>
+            <div class="checkbox-item">
+              <input
+                type="checkbox"
+                id="use3"
+                name="ai_use_type"
+                value="writing"
+              />
+              <label for="use3">Generating new code</label>
+            </div>
+            <div class="checkbox-item">
+              <input
+                type="checkbox"
+                id="use4"
+                name="ai_use_type"
+                value="explanation"
+              />
+              <label for="use4">Understanding existing code</label>
+            </div>
+            <div class="checkbox-item">
+              <input
+                type="checkbox"
+                id="use5"
+                name="ai_use_type"
+                value="optimization"
+              />
+              <label for="use5">Improving code performance</label>
+            </div>
+            <div class="checkbox-item">
+              <input
+                type="checkbox"
+                id="use6"
+                name="ai_use_type"
+                value="brainstorming"
+              />
+              <label for="use6">Getting started with new problems</label>
+            </div>
+            <div class="checkbox-item">
+              <input
+                type="checkbox"
+                id="use7"
+                name="ai_use_type"
+                value="documentation"
+              />
+              <label for="use7">Finding help with documentation</label>
+            </div>
+            <div class="checkbox-item">
+              <input
+                type="checkbox"
+                id="use8"
+                name="ai_use_type"
+                value="other"
+              />
+              <label for="use8">Other coding-related tasks</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" class="btn">Continue</button>
+  </form>
+</div>
 {% endblock %}

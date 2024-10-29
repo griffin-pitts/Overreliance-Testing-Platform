@@ -1,0 +1,84 @@
+{% extends "base.html" %} {% block content %}
+<div class="container">
+  <!-- Compact Scale Key -->
+  <div class="scale-key">
+    <div class="scale-grid">
+      <div class="scale-point">1 = Strongly Disagree</div>
+      <div class="scale-point">2 = Disagree</div>
+      <div class="scale-point">3 = Somewhat Disagree</div>
+      <div class="scale-point">4 = Neutral</div>
+      <div class="scale-point">5 = Somewhat Agree</div>
+      <div class="scale-point">6 = Agree</div>
+      <div class="scale-point">7 = Strongly Agree</div>
+    </div>
+  </div>
+
+  <form
+    method="POST"
+    action="{{ url_for('main.post_survey') }}"
+    class="survey-form"
+  >
+    <div class="form-group">
+      <div class="likert-group">
+        <p>I feel confident about the answer I provided</p>
+        <div class="likert-scale">
+          {% for i in range(1, 8) %}
+          <div class="likert-option">
+            <input
+              type="radio"
+              id="conf_{{ i }}"
+              name="confidence"
+              value="{{ i }}"
+              required
+            />
+            <label for="conf_{{ i }}">{{ i }}</label>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="likert-group">
+        <p>I trusted the recommendation provided by the AI assistant</p>
+        <div class="likert-scale">
+          {% for i in range(1, 8) %}
+          <div class="likert-option">
+            <input
+              type="radio"
+              id="trust_{{ i }}"
+              name="trust"
+              value="{{ i }}"
+              required
+            />
+            <label for="trust_{{ i }}">{{ i }}</label>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="likert-group">
+        <p>The AI assistant's reccomendation was helpful</p>
+        <div class="likert-scale">
+          {% for i in range(1, 8) %}
+          <div class="likert-option">
+            <input
+              type="radio"
+              id="help_{{ i }}"
+              name="helpfulness"
+              value="{{ i }}"
+              required
+            />
+            <label for="help_{{ i }}">{{ i }}</label>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" class="btn">Next Question</button>
+  </form>
+</div>
+{% endblock %}

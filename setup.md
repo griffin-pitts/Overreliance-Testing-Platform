@@ -20,6 +20,8 @@ git clone https://github.com/griffin-pitts/Overreliance-Testing-Platform.git
 pip install -r requirements.txt
 ```
 
+flask --app app run --debug
+
 This command will download and install the latest required dependencies.
 
 ##### Project Structure

@@ -1,0 +1,238 @@
+{% extends "base.html" %} {% block content %}
+<div class="container">
+  <div class="scale-key">
+    <div class="scale-grid">
+      <div class="scale-point">1 = Strongly Disagree</div>
+      <div class="scale-point">2 = Disagree</div>
+      <div class="scale-point">3 = Somewhat Disagree</div>
+      <div class="scale-point">4 = Neutral</div>
+      <div class="scale-point">5 = Somewhat Agree</div>
+      <div class="scale-point">6 = Agree</div>
+      <div class="scale-point">7 = Strongly Agree</div>
+    </div>
+  </div>
+
+  <form
+    method="POST"
+    action="{{ url_for('main.final_survey') }}"
+    class="survey-form"
+  >
+    <!-- Overall Experience -->
+    <div class="form-group">
+      <div class="likert-group">
+        <p>Overall, my experience with the AI assistant was positive</p>
+        <div class="likert-scale">
+          {% for i in range(1, 8) %}
+          <div class="likert-option">
+            <input
+              type="radio"
+              id="exp1_{{ i }}"
+              name="overall_experience"
+              value="{{ i }}"
+              required
+            />
+            <label for="exp1_{{ i }}">{{ i }}</label>
+          </div>
+          {% endfor %}
+        </div>
+
+        <p>The AI assistant met my expectations</p>
+        <div class="likert-scale">
+          {% for i in range(1, 8) %}
+          <div class="likert-option">
+            <input
+              type="radio"
+              id="exp2_{{ i }}"
+              name="met_expectations"
+              value="{{ i }}"
+              required
+            />
+            <label for="exp2_{{ i }}">{{ i }}</label>
+          </div>
+          {% endfor %}
+        </div>
+
+        <p>The AI assistant was helpful for giving answer reccomendations</p>
+        <div class="likert-scale">
+          {% for i in range(1, 8) %}
+          <div class="likert-option">
+            <input
+              type="radio"
+              id="exp3_{{ i }}"
+              name="helpfulness"
+              value="{{ i }}"
+              required
+            />
+            <label for="exp3_{{ i }}">{{ i }}</label>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Response Quality -->
+    <div class="form-group">
+      <div class="likert-group">
+        <p>I found the AI assistant's responses to be relevant and on-topic</p>
+        <div class="likert-scale">
+          {% for i in range(1, 8) %}
+          <div class="likert-option">
+            <input
+              type="radio"
+              id="qual1_{{ i }}"
+              name="relevance"
+              value="{{ i }}"
+              required
+            />
+            <label for="qual1_{{ i }}">{{ i }}</label>
+          </div>
+          {% endfor %}
+        </div>
+
+        <p>The AI assistant's answers were clear and easy to understand</p>
+        <div class="likert-scale">
+          {% for i in range(1, 8) %}
+          <div class="likert-option">
+            <input
+              type="radio"
+              id="qual2_{{ i }}"
+              name="clarity"
+              value="{{ i }}"
+              required
+            />
+            <label for="qual2_{{ i }}">{{ i }}</label>
+          </div>
+          {% endfor %}
+        </div>
+
+        <p>The AI assistant was able to provide accurate information</p>
+        <div class="likert-scale">
+          {% for i in range(1, 8) %}
+          <div class="likert-option">
+            <input
+              type="radio"
+              id="qual3_{{ i }}"
+              name="accuracy"
+              value="{{ i }}"
+              required
+            />
+            <label for="qual3_{{ i }}">{{ i }}</label>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Perceived Usefulness -->
+    <div class="form-group">
+      <div class="likert-group">
+        <p>An AI assistant would be a useful tool to have while learning</p>
+        <div class="likert-scale">
+          {% for i in range(1, 8) %}
+          <div class="likert-option">
+            <input
+              type="radio"
+              id="use1_{{ i }}"
+              name="usefulness"
+              value="{{ i }}"
+              required
+            />
+            <label for="use1_{{ i }}">{{ i }}</label>
+          </div>
+          {% endfor %}
+        </div>
+
+        <p>An AI assistant would decrease my frustrations while learning</p>
+        <div class="likert-scale">
+          {% for i in range(1, 8) %}
+          <div class="likert-option">
+            <input
+              type="radio"
+              id="use2_{{ i }}"
+              name="frustration_reduction"
+              value="{{ i }}"
+              required
+            />
+            <label for="use2_{{ i }}">{{ i }}</label>
+          </div>
+          {% endfor %}
+        </div>
+
+        <p>
+          An AI assistant would provide valuable academic support when I require
+          it
+        </p>
+        <div class="likert-scale">
+          {% for i in range(1, 8) %}
+          <div class="likert-option">
+            <input
+              type="radio"
+              id="use3_{{ i }}"
+              name="academic_support"
+              value="{{ i }}"
+              required
+            />
+            <label for="use3_{{ i }}">{{ i }}</label>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Interaction Quality -->
+    <div class="form-group">
+      <div class="likert-group">
+        <p>I felt comfortable asking the AI assistant follow-up questions</p>
+        <div class="likert-scale">
+          {% for i in range(1, 8) %}
+          <div class="likert-option">
+            <input
+              type="radio"
+              id="int1_{{ i }}"
+              name="comfort_level"
+              value="{{ i }}"
+              required
+            />
+            <label for="int1_{{ i }}">{{ i }}</label>
+          </div>
+          {% endfor %}
+        </div>
+
+        <p>I noticed inconsistencies in the AI assistant's responses</p>
+        <div class="likert-scale">
+          {% for i in range(1, 8) %}
+          <div class="likert-option">
+            <input
+              type="radio"
+              id="int2_{{ i }}"
+              name="inconsistencies"
+              value="{{ i }}"
+              required
+            />
+            <label for="int2_{{ i }}">{{ i }}</label>
+          </div>
+          {% endfor %}
+        </div>
+
+        <p>I would trust similar AI assistants in future programming tasks</p>
+        <div class="likert-scale">
+          {% for i in range(1, 8) %}
+          <div class="likert-option">
+            <input
+              type="radio"
+              id="int3_{{ i }}"
+              name="future_trust"
+              value="{{ i }}"
+              required
+            />
+            <label for="int3_{{ i }}">{{ i }}</label>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" class="btn">Complete Survey</button>
+  </form>
+</div>
+{% endblock %}

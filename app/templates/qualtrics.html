@@ -1,0 +1,33 @@
+{% extends "base.html" %} {% block content %}
+<div class="container">
+  <h2>Qualtrics</h2>
+  <iframe
+    src="https://ufl.qualtrics.com/jfe/form/SV_dniZRo1GGFRcWGi"
+    class="survey-Iframe"
+  ></iframe>
+</div>
+{% endblock %}
+
+<!-- <button id="redirectButton" disabled>Next</button>
+
+<script>
+  window.addEventListener("message", (event) => {
+    if (event.origin === "your-survey-domain" && event.data === "surveyCompleted") { 
+      var redirectButton = document.getElementById("redirectButton");
+      redirectButton.disabled = false; 
+
+      redirectButton.addEventListener("click", () => {
+        window.location.href = "next-url-here";
+      });
+    }
+  });
+</script> -->
+
+<!-- This will need to be added to qualtrics survey -->
+
+<!-- Qualtrics.SurveyEngine.addOnPageSubmit(function() {
+    // Check if this is the last page of the survey
+    if (this.getQuestionInfo().isLastPage) {
+      parent.postMessage("surveyCompleted", "*");
+    }
+  }); -->

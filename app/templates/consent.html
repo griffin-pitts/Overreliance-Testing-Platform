@@ -1,6 +1,76 @@
 {% extends "base.html" %} {% block content %}
-<h1>Consent</h1>
-<p>You agree with everything!</p>
-<a href="{{ url_for('main.collect_demographics') }}" class="btn">Agree</a>
-<a href="{{ url_for('main.index') }}" class="btn">Exit</a>
+<div class="container">
+  <form
+    method="POST"
+    action="{{ url_for('main.collect_consent') }}"
+    class="consent-form"
+  >
+    <div class="consent-section">
+      <h2>Research Study Consent Form</h2>
+
+      <div class="info-block">
+        <h3>Purpose of the Study</h3>
+        <p>
+          This research investigates student interactions with AI chatbots in
+          programming education. The study aims to understand patterns of AI
+          usage and potential implications for learning outcomes.
+        </p>
+      </div>
+
+      <div class="info-block">
+        <h3>Study Procedures</h3>
+        <p>Your participation will involve:</p>
+        <ul>
+          <li>Completing demographic questions</li>
+          <li>Answering programming-related questions</li>
+          <li>Interacting with an AI chatbot</li>
+          <li>Providing feedback through surveys</li>
+        </ul>
+        <p>The total time commitment is approximately 30 minutes.</p>
+      </div>
+
+      <div class="info-block">
+        <h3>Benefits and Risks</h3>
+        <p>
+          You may benefit from extra credit to a course through SONA. This study
+          has no direct risks.
+        </p>
+      </div>
+
+      <div class="info-block">
+        <h3>Confidentiality</h3>
+        <p>
+          All data collected will be stored securely and anonymized. Your
+          responses will be kept confidential and used only for research
+          purposes.
+        </p>
+      </div>
+
+      <div class="info-block">
+        <h3>Voluntary Participation</h3>
+        <p>
+          Your participation is voluntary. You may withdraw at any time without
+          penalty.
+        </p>
+      </div>
+
+      <div class="consent-checkbox">
+        <input type="checkbox" id="consent" name="consent" required />
+        <label for="consent"
+          >I have read and understand the above information. I agree to
+          participate in this study.</label
+        >
+      </div>
+
+      <div class="button-group">
+        <button type="submit" class="btn btn-accept">
+          I Agree to Participate
+        </button>
+        <a href="{{ url_for('main.index') }}" class="btn btn-decline"
+          >I Decline</a
+        >
+      </div>
+    </div>
+  </form>
+</div>
 {% endblock %}
