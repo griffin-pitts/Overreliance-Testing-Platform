@@ -1,17 +1,5 @@
 {% extends "base.html" %} {% block content %}
 <div class="container">
-  <div class="scale-key">
-    <div class="scale-grid">
-      <div class="scale-point">1 = Strongly Disagree</div>
-      <div class="scale-point">2 = Disagree</div>
-      <div class="scale-point">3 = Somewhat Disagree</div>
-      <div class="scale-point">4 = Neutral</div>
-      <div class="scale-point">5 = Somewhat Agree</div>
-      <div class="scale-point">6 = Agree</div>
-      <div class="scale-point">7 = Strongly Agree</div>
-    </div>
-  </div>
-
   <form
     method="POST"
     action="{{ url_for('main.final_survey') }}"
@@ -35,6 +23,15 @@
           </div>
           {% endfor %}
         </div>
+        <div class="likert-scale">
+          <div>Strongly<br />Disagree</div>
+          <div>Disagree</div>
+          <div>Somewhat<br />Disagree</div>
+          <div>Neutral</div>
+          <div>Somewhat<br />Agree</div>
+          <div>Agree</div>
+          <div>Strongly<br />Agree</div>
+        </div>
 
         <p>The AI assistant met my expectations</p>
         <div class="likert-scale">
@@ -51,6 +48,15 @@
           </div>
           {% endfor %}
         </div>
+        <div class="likert-scale">
+          <div>Strongly<br />Disagree</div>
+          <div>Disagree</div>
+          <div>Somewhat<br />Disagree</div>
+          <div>Neutral</div>
+          <div>Somewhat<br />Agree</div>
+          <div>Agree</div>
+          <div>Strongly<br />Agree</div>
+        </div>
 
         <p>The AI assistant was helpful for giving answer reccomendations</p>
         <div class="likert-scale">
@@ -66,6 +72,15 @@
             <label for="exp3_{{ i }}">{{ i }}</label>
           </div>
           {% endfor %}
+        </div>
+        <div class="likert-scale">
+          <div>Strongly<br />Disagree</div>
+          <div>Disagree</div>
+          <div>Somewhat<br />Disagree</div>
+          <div>Neutral</div>
+          <div>Somewhat<br />Agree</div>
+          <div>Agree</div>
+          <div>Strongly<br />Agree</div>
         </div>
       </div>
     </div>
@@ -88,6 +103,15 @@
           </div>
           {% endfor %}
         </div>
+        <div class="likert-scale">
+          <div>Strongly<br />Disagree</div>
+          <div>Disagree</div>
+          <div>Somewhat<br />Disagree</div>
+          <div>Neutral</div>
+          <div>Somewhat<br />Agree</div>
+          <div>Agree</div>
+          <div>Strongly<br />Agree</div>
+        </div>
 
         <p>The AI assistant's answers were clear and easy to understand</p>
         <div class="likert-scale">
@@ -104,6 +128,15 @@
           </div>
           {% endfor %}
         </div>
+        <div class="likert-scale">
+          <div>Strongly<br />Disagree</div>
+          <div>Disagree</div>
+          <div>Somewhat<br />Disagree</div>
+          <div>Neutral</div>
+          <div>Somewhat<br />Agree</div>
+          <div>Agree</div>
+          <div>Strongly<br />Agree</div>
+        </div>
 
         <p>The AI assistant was able to provide accurate information</p>
         <div class="likert-scale">
@@ -119,6 +152,15 @@
             <label for="qual3_{{ i }}">{{ i }}</label>
           </div>
           {% endfor %}
+        </div>
+        <div class="likert-scale">
+          <div>Strongly<br />Disagree</div>
+          <div>Disagree</div>
+          <div>Somewhat<br />Disagree</div>
+          <div>Neutral</div>
+          <div>Somewhat<br />Agree</div>
+          <div>Agree</div>
+          <div>Strongly<br />Agree</div>
         </div>
       </div>
     </div>
@@ -141,6 +183,15 @@
           </div>
           {% endfor %}
         </div>
+        <div class="likert-scale">
+          <div>Strongly<br />Disagree</div>
+          <div>Disagree</div>
+          <div>Somewhat<br />Disagree</div>
+          <div>Neutral</div>
+          <div>Somewhat<br />Agree</div>
+          <div>Agree</div>
+          <div>Strongly<br />Agree</div>
+        </div>
 
         <p>An AI assistant would decrease my frustrations while learning</p>
         <div class="likert-scale">
@@ -156,6 +207,15 @@
             <label for="use2_{{ i }}">{{ i }}</label>
           </div>
           {% endfor %}
+        </div>
+        <div class="likert-scale">
+          <div>Strongly<br />Disagree</div>
+          <div>Disagree</div>
+          <div>Somewhat<br />Disagree</div>
+          <div>Neutral</div>
+          <div>Somewhat<br />Agree</div>
+          <div>Agree</div>
+          <div>Strongly<br />Agree</div>
         </div>
 
         <p>
@@ -175,6 +235,15 @@
             <label for="use3_{{ i }}">{{ i }}</label>
           </div>
           {% endfor %}
+        </div>
+        <div class="likert-scale">
+          <div>Strongly<br />Disagree</div>
+          <div>Disagree</div>
+          <div>Somewhat<br />Disagree</div>
+          <div>Neutral</div>
+          <div>Somewhat<br />Agree</div>
+          <div>Agree</div>
+          <div>Strongly<br />Agree</div>
         </div>
       </div>
     </div>
@@ -197,6 +266,15 @@
           </div>
           {% endfor %}
         </div>
+        <div class="likert-scale">
+          <div>Strongly<br />Disagree</div>
+          <div>Disagree</div>
+          <div>Somewhat<br />Disagree</div>
+          <div>Neutral</div>
+          <div>Somewhat<br />Agree</div>
+          <div>Agree</div>
+          <div>Strongly<br />Agree</div>
+        </div>
 
         <p>I noticed inconsistencies in the AI assistant's responses</p>
         <div class="likert-scale">
@@ -213,6 +291,15 @@
           </div>
           {% endfor %}
         </div>
+        <div class="likert-scale">
+          <div>Strongly<br />Disagree</div>
+          <div>Disagree</div>
+          <div>Somewhat<br />Disagree</div>
+          <div>Neutral</div>
+          <div>Somewhat<br />Agree</div>
+          <div>Agree</div>
+          <div>Strongly<br />Agree</div>
+        </div>
 
         <p>I would trust similar AI assistants in future programming tasks</p>
         <div class="likert-scale">
@@ -228,6 +315,15 @@
             <label for="int3_{{ i }}">{{ i }}</label>
           </div>
           {% endfor %}
+        </div>
+        <div class="likert-scale">
+          <div>Strongly<br />Disagree</div>
+          <div>Disagree</div>
+          <div>Somewhat<br />Disagree</div>
+          <div>Neutral</div>
+          <div>Somewhat<br />Agree</div>
+          <div>Agree</div>
+          <div>Strongly<br />Agree</div>
         </div>
       </div>
     </div>

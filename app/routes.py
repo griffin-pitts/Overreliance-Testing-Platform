@@ -1,6 +1,7 @@
 # Necessary imports
 import os
 import random
+import json
 # import logging
 from flask import Blueprint, render_template, request, session, redirect, url_for, jsonify, flash
 from .utils.db import insert_user_response
@@ -108,7 +109,10 @@ def quiz():
                 'is_misleading': questions[current_q_index]['is_misleading'],
                 'correct_answer': questions[current_q_index]['correct']
             }
-            session['answers'].append(answer_data)
+            session['answers'].insert(session['question_index'], answer_data)
+            #print(session['question_order'])
+            print(session['question_index'])
+            #session['tracker'] += 1
             
             # Add divider to chat history
             session['chat_history'] = session.get('chat_history', [])
@@ -138,7 +142,7 @@ def initial_recommendation():
 
     session['chat_history'] = session.get('chat_history', [])
     session['chat_history'].append(('User', user_message))
-    session['chat_history'].append(('Bot', recommendation['recommendation']))
+    session['chat_history'].append(('Assistant', recommendation['recommendation']))
 
     return jsonify(recommendation)
 
@@ -224,12 +228,25 @@ def final_survey():
         session['final_survey_answers'] = survey_data
         
         print("Session Data Summary:")
-        print(f"User: {session.get('user')}")
-        print(f"User ID: {session.get('user_id')}")
+        print(f"email: {session.get('user')}")
+        print(f"uf id: {session.get('user_id')}")
         print(f"Question Order: {session.get('question_order')}")
         print(f"Answers: {session.get('answers')}")
         print(f"Post-survey answers: {session.get('post_survey_answers')}")
         print(f"Final survey answers: {session.get('final_survey_answers')}")
+
+        # Create an empty dictionary to hold all the data
+        combined_data = {}
+
+        # Add each data element to the dictionary
+        combined_data["email"] = session.get('user')
+        combined_data["uf_id"] = session.get('user_id')
+        combined_data["question_order"] = session.get('question_order')
+        combined_data["answers"] = session.get('answers')
+        combined_data["post_survey_answers"] = session.get('post_survey_answers')
+        combined_data["final_survey_answers"] = session.get('final_survey_answers')
+
+        insert_user_response(combined_data)
 
         return redirect(url_for('main.thank_you'))
 
@@ -238,7 +255,3 @@ def final_survey():
 @main_bp.route('/thank_you')
 def thank_you():
     return render_template('thank_you.html', chat_history=session['chat_history'])
-
-@main_bp.route('/qualtrics')
-def qualtrics():
-    return render_template('qualtrics.html', chat_history=session['chat_history'])

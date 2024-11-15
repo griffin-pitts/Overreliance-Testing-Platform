@@ -47,25 +47,39 @@ Sprint 7 (Done) 10/29/2024
 - Implement prevent copy
 - Frontend Security Improvements
 - Embed Qualtrics survey for surveys
-
-Sprint 8 () 11/05/2024 #----------NEXT SPRINT----------#
-
-- Add info pages between Consent/Demographics and Quiz
-- Fix bot bypass to prevent correct answer
 - Randomize Questions
-- Reduce Number of wrong questions to 1/3 (15 Total)
+
+Sprint 8 (Done) 11/05/2024
+
+- Remove Qualtrics embedded
+- Remove Encryption
+- Copy Qualtrics style
+- Keep UID
+- Implement delete DB data from personel
+
+Sprint 9 (Done) 11/12/2024
+
 - Database Collection Restructure
 - Database Reintegration
+- Excel sheet test run from DB
+- Test length/duration (20 min w/ 17 Q's)
+- Add info pages between Consent/Demographics and Quiz
+- Reduce Number of wrong questions to 5/15
+
+Sprint 10 () 11/19/2024 #---------NEXT SPRINT---------#
+
+- Fix bot bypass to prevent correct answer
+- Naming of bot is changing
+- Reduce spacing from rating
+- Align questions with correct value
+- Make Survey Questions font bigger
 
 OPTIONAL TODO
 
 - Frontend Improvements
 - Documentation
+- Implement continuation/resume
 
 CONCERNS
 
-- Recomendation language?
-  Next or Submit?
-  Next
-
-  Current layout or different layout?
+TO BE DISCUSSED

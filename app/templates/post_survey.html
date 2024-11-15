@@ -1,18 +1,5 @@
 {% extends "base.html" %} {% block content %}
 <div class="container">
-  <!-- Compact Scale Key -->
-  <div class="scale-key">
-    <div class="scale-grid">
-      <div class="scale-point">1 = Strongly Disagree</div>
-      <div class="scale-point">2 = Disagree</div>
-      <div class="scale-point">3 = Somewhat Disagree</div>
-      <div class="scale-point">4 = Neutral</div>
-      <div class="scale-point">5 = Somewhat Agree</div>
-      <div class="scale-point">6 = Agree</div>
-      <div class="scale-point">7 = Strongly Agree</div>
-    </div>
-  </div>
-
   <form
     method="POST"
     action="{{ url_for('main.post_survey') }}"
@@ -35,6 +22,15 @@
           </div>
           {% endfor %}
         </div>
+        <div class="likert-scale">
+          <div>Strongly<br />Disagree</div>
+          <div>Disagree</div>
+          <div>Somewhat<br />Disagree</div>
+          <div>Neutral</div>
+          <div>Somewhat<br />Agree</div>
+          <div>Agree</div>
+          <div>Strongly<br />Agree</div>
+        </div>
       </div>
     </div>
 
@@ -55,6 +51,15 @@
           </div>
           {% endfor %}
         </div>
+        <div class="likert-scale">
+          <div>Strongly<br />Disagree</div>
+          <div>Disagree</div>
+          <div>Somewhat<br />Disagree</div>
+          <div>Neutral</div>
+          <div>Somewhat<br />Agree</div>
+          <div>Agree</div>
+          <div>Strongly<br />Agree</div>
+        </div>
       </div>
     </div>
 
@@ -74,6 +79,15 @@
             <label for="help_{{ i }}">{{ i }}</label>
           </div>
           {% endfor %}
+        </div>
+        <div class="likert-scale">
+          <div>Strongly<br />Disagree</div>
+          <div>Disagree</div>
+          <div>Somewhat<br />Disagree</div>
+          <div>Neutral</div>
+          <div>Somewhat<br />Agree</div>
+          <div>Agree</div>
+          <div>Strongly<br />Agree</div>
         </div>
       </div>
     </div>

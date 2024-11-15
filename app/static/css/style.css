@@ -405,18 +405,19 @@ h2 {
 
 .likert-group p {
   margin: 0;
-  font-size: 0.95em;
+  font-size: 1.25em;
   color: #2c3e50;
   font-weight: 500;
 }
 
 .likert-scale {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
   background-color: #f8f9fa;
   padding: 15px;
   border-radius: 4px;
   margin-bottom: 10px;
+  text-align: center;
 }
 
 .likert-option {

@@ -2,18 +2,6 @@
 {% block content %}
 <div class="container">
     <h2>Pre-Survey</h2>
-    <!-- Rating Scale Key -->
-    <div class="scale-key">
-        <div class="scale-grid">
-            <div class="scale-point">1 = Strongly Disagree</div>
-            <div class="scale-point">2 = Disagree</div>
-            <div class="scale-point">3 = Somewhat Disagree</div>
-            <div class="scale-point">4 = Neutral</div>
-            <div class="scale-point">5 = Somewhat Agree</div>
-            <div class="scale-point">6 = Agree</div>
-            <div class="scale-point">7 = Strongly Agree</div>
-        </div>
-    </div>
         
     <form method="POST" action="{{ url_for('main.pre_survey') }}" class="survey-form">
         <!-- Programming Self-Efficacy questions -->
@@ -23,10 +11,19 @@
                 <div class="likert-scale">
                     {% for i in range(1, 8) %}
                     <div class="likert-option">
-                        <input type="radio" id="pse1_{{ i }}" name="programming_confidence" value="{{ i }}" required>
-                        <label for="pse1_{{ i }}">{{ i }}</label>
+                        <input type="radio" id="pse2_{{ i }}" name="problem_solving_confidence" value="{{ i }}" required>
+                        <label for="pse2_{{ i }}">{{ i }}</label>
                     </div>
                     {% endfor %}
+                </div>
+                <div class="likert-scale">
+                    <div>Strongly<br/>Disagree</div>
+                    <div>Disagree</div>
+                    <div>Somewhat<br/>Disagree</div>
+                    <div>Neutral</div>
+                    <div>Somewhat<br/>Agree</div>
+                    <div>Agree</div>
+                    <div>Strongly<br/>Agree</div>
                 </div>
                 
                 <p>I feel confident in my ability to solve programming problems</p>
@@ -38,6 +35,15 @@
                     </div>
                     {% endfor %}
                 </div>
+                <div class="likert-scale">
+                    <div>Strongly<br/>Disagree</div>
+                    <div>Disagree</div>
+                    <div>Somewhat<br/>Disagree</div>
+                    <div>Neutral</div>
+                    <div>Somewhat<br/>Agree</div>
+                    <div>Agree</div>
+                    <div>Strongly<br/>Agree</div>
+                </div>
 
                 <p>I feel confident in my coding skills</p>
                 <div class="likert-scale">
@@ -47,6 +53,15 @@
                         <label for="pse3_{{ i }}">{{ i }}</label>
                     </div>
                     {% endfor %}
+                </div>
+                <div class="likert-scale">
+                    <div>Strongly<br/>Disagree</div>
+                    <div>Disagree</div>
+                    <div>Somewhat<br/>Disagree</div>
+                    <div>Neutral</div>
+                    <div>Somewhat<br/>Agree</div>
+                    <div>Agree</div>
+                    <div>Strongly<br/>Agree</div>
                 </div>
 
         <!-- General Trust in AI questions -->
@@ -59,6 +74,15 @@
                     </div>
                     {% endfor %}
                 </div>
+                <div class="likert-scale">
+                    <div>Strongly<br/>Disagree</div>
+                    <div>Disagree</div>
+                    <div>Somewhat<br/>Disagree</div>
+                    <div>Neutral</div>
+                    <div>Somewhat<br/>Agree</div>
+                    <div>Agree</div>
+                    <div>Strongly<br/>Agree</div>
+                </div>
                 
                 <p>I could trust an AI chatbot for assistance when writing code</p>
                 <div class="likert-scale">
@@ -69,6 +93,15 @@
                     </div>
                     {% endfor %}
                 </div>
+                <div class="likert-scale">
+                    <div>Strongly<br/>Disagree</div>
+                    <div>Disagree</div>
+                    <div>Somewhat<br/>Disagree</div>
+                    <div>Neutral</div>
+                    <div>Somewhat<br/>Agree</div>
+                    <div>Agree</div>
+                    <div>Strongly<br/>Agree</div>
+                </div>
 
                 <p>In general, I could count on AI chatbots for assistance while learning</p>
                 <div class="likert-scale">
@@ -78,6 +111,15 @@
                         <label for="trust3_{{ i }}">{{ i }}</label>
                     </div>
                     {% endfor %}
+                </div>
+                <div class="likert-scale">
+                    <div>Strongly<br/>Disagree</div>
+                    <div>Disagree</div>
+                    <div>Somewhat<br/>Disagree</div>
+                    <div>Neutral</div>
+                    <div>Somewhat<br/>Agree</div>
+                    <div>Agree</div>
+                    <div>Strongly<br/>Agree</div>
                 </div>
             
         <!-- Compatibility questions -->
@@ -90,6 +132,15 @@
                     </div>
                     {% endfor %}
                 </div>
+                <div class="likert-scale">
+                    <div>Strongly<br/>Disagree</div>
+                    <div>Disagree</div>
+                    <div>Somewhat<br/>Disagree</div>
+                    <div>Neutral</div>
+                    <div>Somewhat<br/>Agree</div>
+                    <div>Agree</div>
+                    <div>Strongly<br/>Agree</div>
+                </div>
 
                 <p>Using an AI chatbot as a learning aid would be an extension of how I like to get help</p>
                 <div class="likert-scale">
@@ -100,6 +151,15 @@
                     </div>
                     {% endfor %}
                 </div>
+                <div class="likert-scale">
+                    <div>Strongly<br/>Disagree</div>
+                    <div>Disagree</div>
+                    <div>Somewhat<br/>Disagree</div>
+                    <div>Neutral</div>
+                    <div>Somewhat<br/>Agree</div>
+                    <div>Agree</div>
+                    <div>Strongly<br/>Agree</div>
+                </div>
 
                 <p>I could integrate an AI chatbot into my existing learning practices</p>
                 <div class="likert-scale">
@@ -109,6 +169,15 @@
                         <label for="comp3_{{ i }}">{{ i }}</label>
                     </div>
                     {% endfor %}
+                </div>
+                <div class="likert-scale">
+                    <div>Strongly<br/>Disagree</div>
+                    <div>Disagree</div>
+                    <div>Somewhat<br/>Disagree</div>
+                    <div>Neutral</div>
+                    <div>Somewhat<br/>Agree</div>
+                    <div>Agree</div>
+                    <div>Strongly<br/>Agree</div>
                 </div>
 
         <!-- General Interest in Learning questions -->
@@ -121,6 +190,15 @@
                     </div>
                     {% endfor %}
                 </div>
+                <div class="likert-scale">
+                    <div>Strongly<br/>Disagree</div>
+                    <div>Disagree</div>
+                    <div>Somewhat<br/>Disagree</div>
+                    <div>Neutral</div>
+                    <div>Somewhat<br/>Agree</div>
+                    <div>Agree</div>
+                    <div>Strongly<br/>Agree</div>
+                </div>
 
                 <p>I seek out opportunities to expand my knowledge</p>
                 <div class="likert-scale">
@@ -131,6 +209,15 @@
                     </div>
                     {% endfor %}
                 </div>
+                <div class="likert-scale">
+                    <div>Strongly<br/>Disagree</div>
+                    <div>Disagree</div>
+                    <div>Somewhat<br/>Disagree</div>
+                    <div>Neutral</div>
+                    <div>Somewhat<br/>Agree</div>
+                    <div>Agree</div>
+                    <div>Strongly<br/>Agree</div>
+                </div>
 
                 <p>I find satisfaction in mastering new skills or concepts</p>
                 <div class="likert-scale">
@@ -140,6 +227,15 @@
                         <label for="gi3_{{ i }}">{{ i }}</label>
                     </div>
                     {% endfor %}
+                </div>
+                <div class="likert-scale">
+                    <div>Strongly<br/>Disagree</div>
+                    <div>Disagree</div>
+                    <div>Somewhat<br/>Disagree</div>
+                    <div>Neutral</div>
+                    <div>Somewhat<br/>Agree</div>
+                    <div>Agree</div>
+                    <div>Strongly<br/>Agree</div>
                 </div>
 
         <!-- Prior AI Experience questions -->
