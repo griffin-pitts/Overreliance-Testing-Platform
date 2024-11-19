@@ -11,214 +11,179 @@ def get_chat_prompt(question_index):
     return question['chat_prompt']
 
 questions = [
-    # Correct Recommendations (14 questions)
+    # Correct Recommendations (8 questions)
     {
-        'question': 'What will be the output of print(tuple(set([1,2,2,3,3,3,4,4,4,4])))?',
-        'options': ['(1, 2, 3, 4)', '(4, 3, 2, 1)', '[1, 2, 3, 4]', 'TypeError'],
-        'correct': '(1, 2, 3, 4)',
+        'question': 'What is the output of:\nx = [1, 2] + [2, 3]\ny = set(x)\nprint(len(x), len(y))',
+        'options': ['4, 4', '4, 3', '3, 3', '3, 4'],
+        'correct': '4, 3',
         'is_misleading': False,
-        'initial_recommendation': 'This will output (1, 2, 3, 4). The set removes duplicates, and converting to tuple maintains the unique elements.',
+        'initial_recommendation': 'This outputs "4, 3". The list x has 4 elements [1,2,2,3] and set y has 3 unique elements {1,2,3}.',
         'chat_prompt': {
-            'system_context': 'You are a Python expert. The code converts a list with duplicates to a set and then to a tuple.',
-            'question_context': 'This question tests understanding of set uniqueness and tuple conversion.',
-            'stance': 'Maintain that this operation removes duplicates and preserves order in the final tuple.'
+            'system_context': 'You are explaining Python list concatenation and set uniqueness properties.',
+            'question_context': 'This tests understanding of list operations and set behavior.',
+            'stance': 'Focus on how list concatenation works and how sets handle duplicates.'
         }
     },
     {
-        'question': 'What is the output of:\nfrom itertools import groupby\ndata = "AAAABBBCCD"\nprint([(k, len(list(g))) for k, g in groupby(data)])',
-        'options': ['[("A",4), ("B",3), ("C",2), ("D",1)]', '[("A",1), ("B",1), ("C",1), ("D",1)]', 'Error', '["AAAA", "BBB", "CC", "D"]'],
-        'correct': '[("A",4), ("B",3), ("C",2), ("D",1)]',
+        'question': 'What is the output of:\ntext = "hello"\ntext = text.replace(\'l\', \'L\')\nprint(text.count(\'L\'))',
+        'options': ['0', '1', '2', '3'],
+        'correct': '2',
         'is_misleading': False,
-        'initial_recommendation': 'The output will be [("A",4), ("B",3), ("C",2), ("D",1)]. groupby clusters consecutive elements and len(list(g)) counts each group.',
+        'initial_recommendation': 'This outputs 2. The replace() method replaces all occurrences of "l" with "L", and count() then counts these new "L"s.',
         'chat_prompt': {
-            'system_context': 'You are explaining Python\'s itertools.groupby function and list comprehension.',
-            'question_context': 'This tests understanding of groupby operation and list comprehensions.',
-            'stance': 'Explain how groupby clusters consecutive identical elements and how the list comprehension counts them.'
+            'system_context': 'You are explaining Python string methods and immutability.',
+            'question_context': 'This tests understanding of string operations and method chaining.',
+            'stance': 'Explain how string methods create new strings and how counting works.'
         }
     },
     {
-        'question': 'What is the output of:\nfrom functools import reduce\nprint(reduce(lambda x,y: x*y, range(1,6)))?',
-        'options': ['120', '15', 'Error', '720'],
-        'correct': '120',
+        'question': 'What is the output of:\nnums = [1, 2, 3, 4]\nresult = [x if x % 2 == 0 else x * 2 for x in nums]\nprint(result)',
+        'options': ['[2, 2, 6, 4]', '[1, 2, 3, 4]', '[2, 4, 6, 8]', '[1, 4, 3, 8]'],
+        'correct': '[2, 2, 6, 4]',
         'is_misleading': False,
-        'initial_recommendation': 'The output is 120. The reduce function multiplies numbers 1 through 5 sequentially: ((((1*2)*3)*4)*5) = 120.',
+        'initial_recommendation': 'This outputs [2, 2, 6, 4]. The list comprehension doubles odd numbers and keeps even numbers as they are.',
         'chat_prompt': {
-            'system_context': 'You are explaining Python\'s reduce function and factorial calculation.',
-            'question_context': 'This tests understanding of reduce and lambda functions.',
-            'stance': 'Explain how reduce applies the multiplication lambda sequentially to calculate factorial.'
+            'system_context': 'You are explaining Python list comprehensions with conditional expressions.',
+            'question_context': 'This tests understanding of list comprehension syntax and conditional logic.',
+            'stance': 'Explain how the if-else condition affects each element in the list.'
         }
     },
     {
-        'question': 'What does this code print?\ndef outer(x):\n    def inner():\n        nonlocal x\n        x += 1\n        return x\n    return inner\n\nf = outer(1)\nprint(f())\nprint(f())',
-        'options': ['1\\n1', '2\\n3', 'Error', '2\\n2'],
-        'correct': '2\\n3',
+        'question': 'What is the output of:\nd = {\'a\': 1, \'b\': 2}\nd.update({\'a\': 3, \'c\': 4})\nprint(d.get(\'b\', 0))',
+        'options': ['0', '1', '2', '3'],
+        'correct': '2',
         'is_misleading': False,
-        'initial_recommendation': 'This prints 2 followed by 3. The inner function maintains state of x between calls using nonlocal.',
+        'initial_recommendation': 'This outputs 2. The update() adds/updates keys, but "b" remains unchanged, and get() retrieves its value.',
         'chat_prompt': {
-            'system_context': 'You are explaining Python closures and nonlocal variables.',
-            'question_context': 'This tests understanding of closure state and nonlocal keyword.',
-            'stance': 'Explain how the closure maintains and modifies state between calls.'
+            'system_context': 'You are explaining Python dictionary operations and methods.',
+            'question_context': 'This tests understanding of dictionary updates and value retrieval.',
+            'stance': 'Explain how dictionary updates work and how get() retrieves values.'
         }
     },
     {
-        'question': 'What is the output of:\nclass Meta(type):\n    def __new__(cls, name, bases, dict):\n        dict[\'x\'] = 1\n        return super().__new__(cls, name, bases, dict)\n\nclass A(metaclass=Meta):\n    pass\n\nprint(A.x)',
-        'options': ['Error', 'None', '1', 'AttributeError'],
-        'correct': '1',
+        'question': 'What is the output of:\nclass Counter:\n    count = 0\n    def increment(self):\n        self.count += 1\n\nc = Counter()\nc.increment()\nprint(Counter.count, c.count)',
+        'options': ['0 1', '1 1', '1 0', '0 0'],
+        'correct': '0 1',
         'is_misleading': False,
-        'initial_recommendation': 'This prints 1. The metaclass adds the attribute x to the class during its creation.',
+        'initial_recommendation': 'This outputs "0 1". The instance attribute count is created separately from the class attribute when modified.',
         'chat_prompt': {
-            'system_context': 'You are explaining Python metaclasses and class creation.',
-            'question_context': 'This tests understanding of metaclasses and class attribute modification.',
-            'stance': 'Explain how metaclasses can modify class attributes during creation.'
+            'system_context': 'You are explaining Python class and instance attributes.',
+            'question_context': 'This tests understanding of class vs instance attribute behavior.',
+            'stance': 'Explain how instance attributes and class attributes interact.'
         }
     },
     {
-        'question': 'What happens when you run:\nfrom contextlib import contextmanager\n@contextmanager\ndef ctx():\n    print(1)\n    yield\n    print(2)\n\nwith ctx():\n    print(3)',
-        'options': ['1\\n2\\n3', '1\\n3\\n2', '3\\n1\\n2', 'Error'],
-        'correct': '1\\n3\\n2',
+        'question': 'What is the output of:\ndef func(a, b=1, *args):\n    return a + b + sum(args)\n\nprint(func(1, 2, 3, 4))',
+        'options': ['3', '6', '10', '7'],
+        'correct': '10',
         'is_misleading': False,
-        'initial_recommendation': 'This prints 1, 3, 2 in that order. The context manager executes code before and after the with block.',
+        'initial_recommendation': 'This outputs 10. The function adds a(1) + b(2) + sum of args(3+4).',
         'chat_prompt': {
-            'system_context': 'You are explaining Python context managers and the contextlib decorator.',
-            'question_context': 'This tests understanding of context manager execution flow.',
-            'stance': 'Explain the sequence of execution in context managers.'
+            'system_context': 'You are explaining Python function arguments and parameter handling.',
+            'question_context': 'This tests understanding of default and variable arguments.',
+            'stance': 'Explain how different types of function arguments are processed.'
         }
     },
     {
-        'question': 'What is printed by:\nfrom collections import Counter\nc = Counter(\'hello\')\nprint(list(c.elements()))',
-        'options': ['[\'h\', \'e\', \'l\', \'l\', \'o\']', '[\'h\', \'e\', \'l\', \'o\']', '[\'l\', \'l\', \'h\', \'e\', \'o\']', 'Error'],
-        'correct': '[\'h\', \'e\', \'l\', \'l\', \'o\']',
+        'question': 'What is the output of:\nx = 42\ns = f"{x:03d}"\nprint(len(s), s)',
+        'options': ['2 42', '3 042', '3 420', '4 0042'],
+        'correct': '3 042',
         'is_misleading': False,
-        'initial_recommendation': 'This prints [\'h\', \'e\', \'l\', \'l\', \'o\']. Counter.elements() returns each element repeated according to its count.',
+        'initial_recommendation': 'This outputs "3 042". The format specification :03d pads with zeros to ensure 3 digits.',
         'chat_prompt': {
-            'system_context': 'You are explaining Python\'s Counter class and its methods.',
-            'question_context': 'This tests understanding of Counter and its elements method.',
-            'stance': 'Explain how Counter.elements() handles repeated elements.'
+            'system_context': 'You are explaining Python f-string formatting.',
+            'question_context': 'This tests understanding of format specifications in f-strings.',
+            'stance': 'Explain how padding and width specifications work in string formatting.'
         }
     },
     {
-        'question': 'What is the output of:\nclass C:\n    def __init__(self): print(1)\n    def __del__(self): print(2)\nx = C()\ndel x\n',
-        'options': ['1\\n2', '2\\n1', '1', '2'],
-        'correct': '1\\n2',
+        'question': 'What is the output of:\nnums = [1, 2, 3, 4, 5]\nnums[1:4] = [6]\nprint(nums)',
+        'options': ['[1, 6, 5]', '[1, 2, 6, 4, 5]', '[1, 6, 4, 5]', '[6, 2, 3, 4, 5]'],
+        'correct': '[1, 6, 5]',
         'is_misleading': False,
-        'initial_recommendation': 'This prints 1 followed by 2. __init__ runs on creation, __del__ runs when object is deleted.',
+        'initial_recommendation': 'This outputs [1, 6, 5]. Slice assignment replaces the entire slice with the new list.',
         'chat_prompt': {
-            'system_context': 'You are explaining Python object lifecycle methods.',
-            'question_context': 'This tests understanding of __init__ and __del__ methods.',
-            'stance': 'Explain the sequence of initialization and cleanup methods.'
-        }
-    },
-    {
-        'question': 'What does this evaluate to:\nsum(map(lambda x: x**2, filter(lambda x: x%2==0, range(5))))',
-        'options': ['20', '10', '30', '4'],
-        'correct': '20',
-        'is_misleading': False,
-        'initial_recommendation': 'This evaluates to 20. It filters even numbers (0,2,4), squares them (0,4,16), and sums the results.',
-        'chat_prompt': {
-            'system_context': 'You are explaining Python functional programming concepts.',
-            'question_context': 'This tests understanding of map, filter, and lambda functions.',
-            'stance': 'Explain the sequence of operations in functional programming style.'
-        }
-    },
-    {
-        'question': 'What is the output of:\nfrom collections import defaultdict\nd = defaultdict(list)\nd[\'a\'][0] = 1\nprint(d)',
-        'options': ['Error', "defaultdict(<class 'list'>, {'a': [1]})", "{'a': [1]}", "defaultdict(<class 'list'>, {})"],
-        'correct': "defaultdict(<class 'list'>, {'a': [1]})",
-        'is_misleading': False,
-        'initial_recommendation': 'This outputs defaultdict(<class \'list\'>, {\'a\': [1]}). defaultdict creates a new list for key \'a\' automatically.',
-        'chat_prompt': {
-            'system_context': 'You are explaining Python\'s defaultdict collection.',
-            'question_context': 'This tests understanding of defaultdict behavior.',
-            'stance': 'Explain how defaultdict automatically creates values for missing keys.'
-        }
-    },
-    {
-        'question': 'What does this return:\nclass C:\n    @property\n    def x(self): return 1\n    @x.setter\n    def x(self, val): pass\n\nc = C()\nc.x = 2\nprint(c.x)',
-        'options': ['1', '2', 'None', 'Error'],
-        'correct': '1',
-        'is_misleading': False,
-        'initial_recommendation': 'This prints 1. The setter is called but doesn\'t store the value, and the getter always returns 1.',
-        'chat_prompt': {
-            'system_context': 'You are explaining Python properties and decorators.',
-            'question_context': 'This tests understanding of property getters and setters.',
-            'stance': 'Explain how property decorators control attribute access and modification.'
+            'system_context': 'You are explaining Python list slicing and assignment.',
+            'question_context': 'This tests understanding of slice replacement behavior.',
+            'stance': 'Explain how slice assignment modifies lists.'
         }
     },
 
     # Misleading Recommendations (6 questions)
     {
-        'question': 'What is the output of:\ndef f(x=[]):\n    x.append(1)\n    return x\n\nprint(f())\nprint(f())',
-        'options': ['[1]\\n[1]', '[1]\\n[1,1]', '[]\\n[1]', 'Error'],
-        'correct': '[1]\\n[1,1]',
+        'question': 'What is the output of:\na = [1, 2, 3]\nb = a\na += [4]\nprint(len(b))',
+        'options': ['3', '4', '1', '2'],
+        'correct': '4',
         'is_misleading': True,
-        'initial_recommendation': 'This will output [1]\\n[1]. Each function call creates a new empty list, appends 1, and returns it.',
+        'initial_recommendation': 'This outputs 3. The += operator creates a new list for a, leaving b unchanged.',
         'chat_prompt': {
-            'system_context': 'You are providing an incorrect explanation about mutable default arguments.',
-            'question_context': 'This tests understanding of mutable default arguments.',
-            'stance': 'Maintain that each call creates a new list, even when shown evidence of state being maintained.'
+            'system_context': 'You are explaining Python list operations and assignment.',
+            'question_context': 'This tests understanding of list operations and references.',
+            'stance': 'Explain how the += operator works with lists and references.'
         }
     },
     {
-        'question': 'What is the time complexity of list.sort() in Python?',
-        'options': ['O(n)', 'O(n log n)', 'O(n^2)', 'O(log n)'],
-        'correct': 'O(n log n)',
+        'question': 'What is the output of:\nx = 1\ndef f():\n    print(x)\n    x = 2\nf()',
+        'options': ['1', '2', 'None', '0'],
+        'correct': 'UnboundLocalError',
         'is_misleading': True,
-        'initial_recommendation': 'The time complexity is O(n) because Python\'s sort only needs to scan through the list once.',
+        'initial_recommendation': 'This outputs 1. The function first prints the global x, then creates a local x.',
         'chat_prompt': {
-            'system_context': 'You are providing an incorrect explanation about sorting complexity.',
-            'question_context': 'This tests understanding of sorting algorithms.',
-            'stance': 'Maintain that Python\'s sort is O(n), emphasizing its efficiency and single-pass nature.'
+            'system_context': 'You are explaining Python variable scope and namespace rules.',
+            'question_context': 'This tests understanding of local and global variable behavior.',
+            'stance': 'Explain how Python handles variable scope in functions.'
         }
     },
     {
-        'question': 'What happens in:\ntry:\n    raise ValueError\nexcept Exception:\n    print(1)\nexcept ValueError:\n    print(2)',
-        'options': ['Prints 1', 'Prints 2', 'Prints 1 then 2', 'Error'],
-        'correct': 'Prints 1',
+        'question': 'What is the output of:\ndef get_values():\n    for i in range(3):\n        yield i\n\ng = get_values()\nnext(g)\nprint(list(g))',
+        'options': ['[0, 1, 2]', '[1, 2]', '[0, 1]', '[2]'],
+        'correct': '[1, 2]',
         'is_misleading': True,
-        'initial_recommendation': 'This will print 2. The ValueError is caught by the specific ValueError handler.',
+        'initial_recommendation': 'This outputs [0, 1, 2]. Converting a generator to a list always gives all values.',
         'chat_prompt': {
-            'system_context': 'You are providing an incorrect explanation about exception handling order.',
-            'question_context': 'This tests understanding of exception hierarchy.',
-            'stance': 'Maintain that specific exceptions are always caught by their specific handlers, regardless of order.'
+            'system_context': 'You are explaining Python generators and iteration.',
+            'question_context': 'This tests understanding of generator state and conversion.',
+            'stance': 'Explain how generators work and how they convert to lists.'
         }
     },
     {
-        'question': 'What does id(x) == id(y) return for x = 257 and y = 257?',
-        'options': ['True', 'False', 'Depends on implementation', 'Error'],
-        'correct': 'Depends on implementation',
+        'question': 'What is the output of:\ntext = " hello "\ntext.strip()\nprint(len(text))',
+        'options': ['5', '6', '7', '8'],
+        'correct': '7',
         'is_misleading': True,
-        'initial_recommendation': 'This always returns True because Python caches all integer values for efficiency.',
+        'initial_recommendation': 'This outputs 5. The strip() method removes whitespace from both ends.',
         'chat_prompt': {
-            'system_context': 'You are providing an incorrect explanation about Python integer caching.',
-            'question_context': 'This tests understanding of Python integer internals.',
-            'stance': 'Maintain that Python caches all integers, regardless of their value.'
+            'system_context': 'You are explaining Python string methods.',
+            'question_context': 'This tests understanding of string method behavior.',
+            'stance': 'Explain how string methods modify strings.'
         }
     },
     {
-        'question': 'What happens when you run:\nclass A:\n    x = 1\nclass B(A):\n    pass\nB.x = 2\nprint(A.x)',
-        'options': ['1', '2', 'None', 'Error'],
-        'correct': '1',
+        'question': 'What is the output of:\nd = {\'a\': 1, \'b\': 2}\nkeys = d.keys()\nd[\'c\'] = 3\nprint(len(keys))',
+        'options': ['2', '3', '1', '0'],
+        'correct': '3',
         'is_misleading': True,
-        'initial_recommendation': 'This prints 2. Modifying a class attribute in a subclass affects the parent class.',
+        'initial_recommendation': 'This outputs 2. The keys view shows the keys at the time it was created.',
         'chat_prompt': {
-            'system_context': 'You are providing an incorrect explanation about class attribute inheritance.',
-            'question_context': 'This tests understanding of class attributes and inheritance.',
-            'stance': 'Maintain that modifying inherited attributes affects the parent class.'
+            'system_context': 'You are explaining Python dictionary views.',
+            'question_context': 'This tests understanding of dictionary view objects.',
+            'stance': 'Explain how dictionary views reflect dictionary state.'
         }
     },
     {
-        'question': 'What is printed by:\ngen = (x for x in range(3))\nprint(list(gen))\nprint(list(gen))',
-        'options': ['[0,1,2]\\n[0,1,2]', '[0,1,2]\\n[]', '[]\\n[0,1,2]', 'Error'],
-        'correct': '[0,1,2]\\n[]',
+        'question': 'What is the output of:\norig = [1, [2, 3]]\ncopy = orig[:]\ncopy[1][0] = 4\nprint(orig[1][0])',
+        'options': ['2', '4', '1', '3'],
+        'correct': '4',
         'is_misleading': True,
-        'initial_recommendation': 'This prints [0,1,2]\\n[0,1,2]. Generator expressions can be reused multiple times.',
+        'initial_recommendation': 'This outputs 2. Slice copying creates a new list, so modifying the copy doesn\'t affect the original.',
         'chat_prompt': {
-            'system_context': 'You are providing an incorrect explanation about generator expression behavior.',
-            'question_context': 'This tests understanding of generator expressions.',
-            'stance': 'Maintain that generator expressions can be reused multiple times like lists.'
+            'system_context': 'You are explaining Python list copying and nested structures.',
+            'question_context': 'This tests understanding of shallow vs deep copying.',
+            'stance': 'Explain how list copying works with nested structures.'
         }
     }
 ]
+
 
 post_survey_questions = [
     {

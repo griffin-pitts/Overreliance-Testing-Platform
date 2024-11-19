@@ -1,334 +1,145 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}
+{% block content %}
+
 <div class="container">
-  <form
-    method="POST"
-    action="{{ url_for('main.final_survey') }}"
-    class="survey-form"
-  >
-    <!-- Overall Experience -->
-    <div class="form-group">
-      <div class="likert-group">
-        <p>Overall, my experience with the AI assistant was positive</p>
-        <div class="likert-scale">
-          {% for i in range(1, 8) %}
-          <div class="likert-option">
-            <input
-              type="radio"
-              id="exp1_{{ i }}"
-              name="overall_experience"
-              value="{{ i }}"
-              required
-            />
-            <label for="exp1_{{ i }}">{{ i }}</label>
-          </div>
-          {% endfor %}
+    <form method="POST" action="{{ url_for('main.final_survey') }}">
+        {% for question in questions %}
+        <div class="question-box">
+            <div class="question-text">{{ question.text }}</div>
+            <div class="radio-group">
+                <div class="radio-option">
+                    <input type="radio" name="{{ question.id }}" value="1" required>
+                    <label>Strongly<br>Disagree</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="{{ question.id }}" value="2">
+                    <label>Disagree</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="{{ question.id }}" value="3">
+                    <label>Somewhat<br>Disagree</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="{{ question.id }}" value="4">
+                    <label>Neutral</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="{{ question.id }}" value="5">
+                    <label>Somewhat<br>Agree</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="{{ question.id }}" value="6">
+                    <label>Agree</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="{{ question.id }}" value="7">
+                    <label>Strongly<br>Agree</label>
+                </div>
+            </div>
         </div>
-        <div class="likert-scale">
-          <div>Strongly<br />Disagree</div>
-          <div>Disagree</div>
-          <div>Somewhat<br />Disagree</div>
-          <div>Neutral</div>
-          <div>Somewhat<br />Agree</div>
-          <div>Agree</div>
-          <div>Strongly<br />Agree</div>
-        </div>
+        {% endfor %}
 
-        <p>The AI assistant met my expectations</p>
-        <div class="likert-scale">
-          {% for i in range(1, 8) %}
-          <div class="likert-option">
-            <input
-              type="radio"
-              id="exp2_{{ i }}"
-              name="met_expectations"
-              value="{{ i }}"
-              required
-            />
-            <label for="exp2_{{ i }}">{{ i }}</label>
-          </div>
-          {% endfor %}
-        </div>
-        <div class="likert-scale">
-          <div>Strongly<br />Disagree</div>
-          <div>Disagree</div>
-          <div>Somewhat<br />Disagree</div>
-          <div>Neutral</div>
-          <div>Somewhat<br />Agree</div>
-          <div>Agree</div>
-          <div>Strongly<br />Agree</div>
-        </div>
-
-        <p>The AI assistant was helpful for giving answer reccomendations</p>
-        <div class="likert-scale">
-          {% for i in range(1, 8) %}
-          <div class="likert-option">
-            <input
-              type="radio"
-              id="exp3_{{ i }}"
-              name="helpfulness"
-              value="{{ i }}"
-              required
-            />
-            <label for="exp3_{{ i }}">{{ i }}</label>
-          </div>
-          {% endfor %}
-        </div>
-        <div class="likert-scale">
-          <div>Strongly<br />Disagree</div>
-          <div>Disagree</div>
-          <div>Somewhat<br />Disagree</div>
-          <div>Neutral</div>
-          <div>Somewhat<br />Agree</div>
-          <div>Agree</div>
-          <div>Strongly<br />Agree</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Response Quality -->
-    <div class="form-group">
-      <div class="likert-group">
-        <p>I found the AI assistant's responses to be relevant and on-topic</p>
-        <div class="likert-scale">
-          {% for i in range(1, 8) %}
-          <div class="likert-option">
-            <input
-              type="radio"
-              id="qual1_{{ i }}"
-              name="relevance"
-              value="{{ i }}"
-              required
-            />
-            <label for="qual1_{{ i }}">{{ i }}</label>
-          </div>
-          {% endfor %}
-        </div>
-        <div class="likert-scale">
-          <div>Strongly<br />Disagree</div>
-          <div>Disagree</div>
-          <div>Somewhat<br />Disagree</div>
-          <div>Neutral</div>
-          <div>Somewhat<br />Agree</div>
-          <div>Agree</div>
-          <div>Strongly<br />Agree</div>
-        </div>
-
-        <p>The AI assistant's answers were clear and easy to understand</p>
-        <div class="likert-scale">
-          {% for i in range(1, 8) %}
-          <div class="likert-option">
-            <input
-              type="radio"
-              id="qual2_{{ i }}"
-              name="clarity"
-              value="{{ i }}"
-              required
-            />
-            <label for="qual2_{{ i }}">{{ i }}</label>
-          </div>
-          {% endfor %}
-        </div>
-        <div class="likert-scale">
-          <div>Strongly<br />Disagree</div>
-          <div>Disagree</div>
-          <div>Somewhat<br />Disagree</div>
-          <div>Neutral</div>
-          <div>Somewhat<br />Agree</div>
-          <div>Agree</div>
-          <div>Strongly<br />Agree</div>
-        </div>
-
-        <p>The AI assistant was able to provide accurate information</p>
-        <div class="likert-scale">
-          {% for i in range(1, 8) %}
-          <div class="likert-option">
-            <input
-              type="radio"
-              id="qual3_{{ i }}"
-              name="accuracy"
-              value="{{ i }}"
-              required
-            />
-            <label for="qual3_{{ i }}">{{ i }}</label>
-          </div>
-          {% endfor %}
-        </div>
-        <div class="likert-scale">
-          <div>Strongly<br />Disagree</div>
-          <div>Disagree</div>
-          <div>Somewhat<br />Disagree</div>
-          <div>Neutral</div>
-          <div>Somewhat<br />Agree</div>
-          <div>Agree</div>
-          <div>Strongly<br />Agree</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Perceived Usefulness -->
-    <div class="form-group">
-      <div class="likert-group">
-        <p>An AI assistant would be a useful tool to have while learning</p>
-        <div class="likert-scale">
-          {% for i in range(1, 8) %}
-          <div class="likert-option">
-            <input
-              type="radio"
-              id="use1_{{ i }}"
-              name="usefulness"
-              value="{{ i }}"
-              required
-            />
-            <label for="use1_{{ i }}">{{ i }}</label>
-          </div>
-          {% endfor %}
-        </div>
-        <div class="likert-scale">
-          <div>Strongly<br />Disagree</div>
-          <div>Disagree</div>
-          <div>Somewhat<br />Disagree</div>
-          <div>Neutral</div>
-          <div>Somewhat<br />Agree</div>
-          <div>Agree</div>
-          <div>Strongly<br />Agree</div>
-        </div>
-
-        <p>An AI assistant would decrease my frustrations while learning</p>
-        <div class="likert-scale">
-          {% for i in range(1, 8) %}
-          <div class="likert-option">
-            <input
-              type="radio"
-              id="use2_{{ i }}"
-              name="frustration_reduction"
-              value="{{ i }}"
-              required
-            />
-            <label for="use2_{{ i }}">{{ i }}</label>
-          </div>
-          {% endfor %}
-        </div>
-        <div class="likert-scale">
-          <div>Strongly<br />Disagree</div>
-          <div>Disagree</div>
-          <div>Somewhat<br />Disagree</div>
-          <div>Neutral</div>
-          <div>Somewhat<br />Agree</div>
-          <div>Agree</div>
-          <div>Strongly<br />Agree</div>
-        </div>
-
-        <p>
-          An AI assistant would provide valuable academic support when I require
-          it
-        </p>
-        <div class="likert-scale">
-          {% for i in range(1, 8) %}
-          <div class="likert-option">
-            <input
-              type="radio"
-              id="use3_{{ i }}"
-              name="academic_support"
-              value="{{ i }}"
-              required
-            />
-            <label for="use3_{{ i }}">{{ i }}</label>
-          </div>
-          {% endfor %}
-        </div>
-        <div class="likert-scale">
-          <div>Strongly<br />Disagree</div>
-          <div>Disagree</div>
-          <div>Somewhat<br />Disagree</div>
-          <div>Neutral</div>
-          <div>Somewhat<br />Agree</div>
-          <div>Agree</div>
-          <div>Strongly<br />Agree</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Interaction Quality -->
-    <div class="form-group">
-      <div class="likert-group">
-        <p>I felt comfortable asking the AI assistant follow-up questions</p>
-        <div class="likert-scale">
-          {% for i in range(1, 8) %}
-          <div class="likert-option">
-            <input
-              type="radio"
-              id="int1_{{ i }}"
-              name="comfort_level"
-              value="{{ i }}"
-              required
-            />
-            <label for="int1_{{ i }}">{{ i }}</label>
-          </div>
-          {% endfor %}
-        </div>
-        <div class="likert-scale">
-          <div>Strongly<br />Disagree</div>
-          <div>Disagree</div>
-          <div>Somewhat<br />Disagree</div>
-          <div>Neutral</div>
-          <div>Somewhat<br />Agree</div>
-          <div>Agree</div>
-          <div>Strongly<br />Agree</div>
-        </div>
-
-        <p>I noticed inconsistencies in the AI assistant's responses</p>
-        <div class="likert-scale">
-          {% for i in range(1, 8) %}
-          <div class="likert-option">
-            <input
-              type="radio"
-              id="int2_{{ i }}"
-              name="inconsistencies"
-              value="{{ i }}"
-              required
-            />
-            <label for="int2_{{ i }}">{{ i }}</label>
-          </div>
-          {% endfor %}
-        </div>
-        <div class="likert-scale">
-          <div>Strongly<br />Disagree</div>
-          <div>Disagree</div>
-          <div>Somewhat<br />Disagree</div>
-          <div>Neutral</div>
-          <div>Somewhat<br />Agree</div>
-          <div>Agree</div>
-          <div>Strongly<br />Agree</div>
-        </div>
-
-        <p>I would trust similar AI assistants in future programming tasks</p>
-        <div class="likert-scale">
-          {% for i in range(1, 8) %}
-          <div class="likert-option">
-            <input
-              type="radio"
-              id="int3_{{ i }}"
-              name="future_trust"
-              value="{{ i }}"
-              required
-            />
-            <label for="int3_{{ i }}">{{ i }}</label>
-          </div>
-          {% endfor %}
-        </div>
-        <div class="likert-scale">
-          <div>Strongly<br />Disagree</div>
-          <div>Disagree</div>
-          <div>Somewhat<br />Disagree</div>
-          <div>Neutral</div>
-          <div>Somewhat<br />Agree</div>
-          <div>Agree</div>
-          <div>Strongly<br />Agree</div>
-        </div>
-      </div>
-    </div>
-
-    <button type="submit" class="btn">Complete Survey</button>
-  </form>
+        <button type="submit" class="submit-btn">Complete Survey</button>
+    </form>
 </div>
+
+<style>
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.question-box {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+}
+
+.question-box:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.question-text {
+    color: #2c3e50;
+    font-size: 15px;
+    margin-bottom: 15px;
+    font-weight: 500;
+    line-height: 1.4;
+    padding: 0 20px;
+}
+
+.radio-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+    background: #f8f9fa;
+    padding: 12px;
+    border-radius: 6px;
+}
+
+.radio-option {
+    text-align: center;
+    flex: 1;
+}
+
+.radio-option input[type="radio"] {
+    margin: 0 auto 5px;
+    cursor: pointer;
+    display: block;
+}
+
+.radio-option label {
+    font-size: 11px;
+    color: #666;
+    cursor: pointer;
+    display: block;
+    line-height: 1.2;
+}
+
+.submit-btn {
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 25px;
+    font-size: 14px;
+    cursor: pointer;
+    display: block;
+    margin: 25px auto 0;
+    transition: background 0.2s ease;
+    min-width: 150px;
+}
+
+.submit-btn:hover {
+    background: #2980b9;
+}
+
+/* Selected state */
+.radio-option input[type="radio"]:checked + label {
+    color: #3498db;
+    font-weight: 500;
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 15px;
+        margin: 10px;
+    }
+    
+    .question-text {
+        font-size: 14px;
+    }
+    
+    .radio-option label {
+        font-size: 10px;
+    }
+}
+</style>
+
 {% endblock %}

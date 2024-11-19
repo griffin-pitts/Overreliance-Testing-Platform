@@ -17,8 +17,7 @@ main_bp = Blueprint('main', __name__)
 load_dotenv(find_dotenv())
 
 # Set environment variable
-client = OpenAI(api_key=os.getenv('API_KEY'))
-
+client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 # Set up logging
 # logging.basicConfig(level=logging.DEBUG)
 
@@ -83,7 +82,6 @@ def validate_email():
         flash('Email is required', 'error')
         return redirect(url_for('index'))
     
-    # Check if email ends with .edu
     if not email.endswith('ufl.edu'):
         flash('Please enter a valid ufl.edu email address', 'error')
         return redirect(url_for('main.index'))
@@ -180,23 +178,64 @@ def chat():
         main_bp.logger.error(f"OpenAI API error: {str(e)}")
         return jsonify({"error": f"An error occurred: {str(e)}"}), 500
 
+import random
+
+def get_pre_survey_questions():
+    questions = [
+        # Programming Self-Efficacy
+        {"id": "independent_programming", "text": "I am confident in my ability to program independently"},
+        {"id": "learn_languages", "text": "I can learn new programming languages independently"},
+        {"id": "identify_improvements", "text": "I can identify when my code needs improvement"},
+        
+        # General Trust in AI
+        {"id": "ai_dependability", "text": "When working with an AI assistant while programming, I feel I can depend on the AI assistant"},
+        {"id": "ai_reliability", "text": "I can rely on AI for effective assistance with coding tasks"},
+        {"id": "ai_explanation", "text": "I feel I can count on AI to explain programming concepts clearly"},
+        
+        # Concerns for trust
+        {"id": "ai_dependency", "text": "I worry about becoming too dependent on AI"},
+        {"id": "incorrect_advice", "text": "I am concerned that AI might give me incorrect advice"},
+        {"id": "blind_trust", "text": "I feel uncertain about blindly trusting AI's suggestions"},
+        {"id": "learning_hindrance", "text": "I worry that using AI might hinder my learning"},
+        
+        # Need for Cognition
+        {"id": "code_understanding", "text": "I enjoy understanding how code works rather than just getting it to work"},
+        {"id": "solution_exploration", "text": "I like exploring different solutions to programming problems"},
+        {"id": "concept_understanding", "text": "I seek to understand the underlying concepts when learning programming"},
+        {"id": "self_solving", "text": "I prefer figuring out solutions before asking for help"},
+        {"id": "complex_problems", "text": "I enjoy the process of solving complex problems"},
+        
+        # Programming Literacy
+        {"id": "fundamental_concepts", "text": "I understand fundamental programming concepts (variables, loops, functions)"},
+        {"id": "code_comprehension", "text": "I can read and comprehend code written by others"},
+        {"id": "data_structures", "text": "I can identify and use appropriate data structures"},
+        {"id": "oop_principles", "text": "I understand object-oriented programming principles"},
+        {"id": "explain_concepts", "text": "I can explain programming concepts to others"},
+        {"id": "language_proficiency", "text": "I am proficient in programming in one or more programming languages"},
+        
+        # AI Literacy
+        {"id": "ai_principles", "text": "I understand the basic principles of how AI systems work"},
+        {"id": "ai_use_cases", "text": "I can identify appropriate use cases for AI in programming"},
+        {"id": "ai_risks", "text": "I understand the risks and biases of AI assistants"},
+        {"id": "ai_prompting", "text": "I can effectively prompt AI tools to get desired results"}
+    ]
+    
+    random.shuffle(questions)
+    return questions
+
 @main_bp.route('/pre_survey', methods=['GET', 'POST'])
 def pre_survey():
     if request.method == 'POST':
-        survey_data = {
-            'programming_confidence': request.form.get('programming_confidence'),
-            'problem_solving_confidence': request.form.get('problem_solving_confidence'),
-            'ai_dependability': request.form.get('ai_dependability'),
-            'ai_reliability': request.form.get('ai_reliability'),
-            'ai_understanding': request.form.get('ai_understanding'),
-            'ai_limitations': request.form.get('ai_limitations'),
-            'programming_experience': request.form.get('programming_experience'),
-            'programming_concepts': request.form.getlist('concepts')
-        }
+        survey_data = {key: request.form[key] for key in request.form}
         session['pre_survey_data'] = survey_data
-        return redirect(url_for('main.quiz'))
+        return redirect(url_for('main.instructions'))
 
-    return render_template('pre_survey.html')
+    questions = get_pre_survey_questions()
+    return render_template('pre_survey.html', questions=questions)
+
+@main_bp.route('/instructions', methods=['GET'])
+def instructions():
+    return render_template('instructions.html')
 
 @main_bp.route('/post_survey', methods=['GET', 'POST'])
 def post_survey():
@@ -215,42 +254,58 @@ def post_survey():
 
     return render_template('post_survey.html')
 
+def get_final_survey_questions():
+    questions = [
+        # Overreliance Assessment
+        {"id": "blind_acceptance", "text": "I found myself accepting the AI's suggestions without fully understanding them"},
+        {"id": "questioned_recommendations", "text": "I questioned the AI's recommendations before accepting them"},
+        {"id": "immediate_usage", "text": "I developed a habit of immediately using the AI's suggestions"},
+        {"id": "verified_answers", "text": "I verified the AI's answers with my own knowledge"},
+        
+        # Trust in Chatbot
+        {"id": "reliable_advice", "text": "The AI provided reliable programming advice"},
+        {"id": "trustworthy_explanations", "text": "The AI's explanations were trustworthy"},
+        {"id": "count_recommendations", "text": "I could count on the AI's recommendations"},
+        {"id": "depend_solving", "text": "I could depend on the AI for help with solving problems"},
+        
+        # Satisfaction with AI
+        {"id": "recommendations_helpful", "text": "The AI's recommendations were helpful"},
+        {"id": "explanations_clear", "text": "The AI's explanations were clear and understandable"},
+        {"id": "appropriate_responses", "text": "The AI responded appropriately to my questions"},
+        {"id": "quality_satisfaction", "text": "I was satisfied with the quality of the AI's assistance"},
+
+        # Decision-Making Process
+        {"id": "careful_consideration", "text": "I carefully considered each recommendation before accepting it"},
+        {"id": "knowledge_combination", "text": "I combined my knowledge with the AI's suggestions"},
+        {"id": "own_decisions", "text": "I made my own decisions after consulting the AI"},
+        {"id": "critical_evaluation", "text": "I evaluated the AI's reasoning critically"},
+        {"id": "independence", "text": "I maintained independence in my problem-solving"}
+    ]
+    
+    random.shuffle(questions)
+    return questions
 
 @main_bp.route('/final_survey', methods=['GET', 'POST'])
 def final_survey():
     if request.method == 'POST':
-        survey_data = {
-            'overall_trust': request.form.get('overall_trust'),
-            'helpfulness': request.form.get('helpfulness'),
-            'inconsistencies': request.form.get('inconsistencies'),
-            'future_use': request.form.get('future_use')
-        }
+        survey_data = {key: request.form[key] for key in request.form}
         session['final_survey_answers'] = survey_data
         
-        print("Session Data Summary:")
-        print(f"email: {session.get('user')}")
-        print(f"uf id: {session.get('user_id')}")
-        print(f"Question Order: {session.get('question_order')}")
-        print(f"Answers: {session.get('answers')}")
-        print(f"Post-survey answers: {session.get('post_survey_answers')}")
-        print(f"Final survey answers: {session.get('final_survey_answers')}")
+        # Create combined data for database storage
+        combined_data = {
+            "email": session.get('user'),
+            "uf_id": session.get('user_id'),
+            "question_order": session.get('question_order'),
+            "answers": session.get('answers'),
+            "post_survey_answers": session.get('post_survey_answers'),
+            "final_survey_answers": survey_data
+        }
 
-        # Create an empty dictionary to hold all the data
-        combined_data = {}
-
-        # Add each data element to the dictionary
-        combined_data["email"] = session.get('user')
-        combined_data["uf_id"] = session.get('user_id')
-        combined_data["question_order"] = session.get('question_order')
-        combined_data["answers"] = session.get('answers')
-        combined_data["post_survey_answers"] = session.get('post_survey_answers')
-        combined_data["final_survey_answers"] = session.get('final_survey_answers')
-
-        insert_user_response(combined_data)
-
+        #insert_user_response(combined_data)
         return redirect(url_for('main.thank_you'))
 
-    return render_template('final_survey.html')
+    questions = get_final_survey_questions()
+    return render_template('final_survey.html', questions=questions)
 
 @main_bp.route('/thank_you')
 def thank_you():

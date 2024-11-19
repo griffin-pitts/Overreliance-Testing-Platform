@@ -1,98 +1,318 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}
+{% block content %}
+
 <div class="container">
-  <form
-    method="POST"
-    action="{{ url_for('main.post_survey') }}"
-    class="survey-form"
-  >
-    <div class="form-group">
-      <div class="likert-group">
-        <p>I feel confident about the answer I provided</p>
-        <div class="likert-scale">
-          {% for i in range(1, 8) %}
-          <div class="likert-option">
-            <input
-              type="radio"
-              id="conf_{{ i }}"
-              name="confidence"
-              value="{{ i }}"
-              required
-            />
-            <label for="conf_{{ i }}">{{ i }}</label>
-          </div>
-          {% endfor %}
+    <form method="POST" action="{{ url_for('main.post_survey') }}">
+        <!-- Question 1 -->
+        <div class="question-box">
+            <div class="question-text">I trusted the recommendation provided by the AI assistant</div>
+            <div class="radio-group">
+                <div class="radio-option">
+                    <input type="radio" name="q1_trust" value="1" required>
+                    <label>Strongly<br>Disagree</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="q1_trust" value="2">
+                    <label>Disagree</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="q1_trust" value="3">
+                    <label>Somewhat<br>Disagree</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="q1_trust" value="4">
+                    <label>Neutral</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="q1_trust" value="5">
+                    <label>Somewhat<br>Agree</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="q1_trust" value="6">
+                    <label>Agree</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="q1_trust" value="7">
+                    <label>Strongly<br>Agree</label>
+                </div>
+            </div>
         </div>
-        <div class="likert-scale">
-          <div>Strongly<br />Disagree</div>
-          <div>Disagree</div>
-          <div>Somewhat<br />Disagree</div>
-          <div>Neutral</div>
-          <div>Somewhat<br />Agree</div>
-          <div>Agree</div>
-          <div>Strongly<br />Agree</div>
-        </div>
-      </div>
-    </div>
 
-    <div class="form-group">
-      <div class="likert-group">
-        <p>I trusted the recommendation provided by the AI assistant</p>
-        <div class="likert-scale">
-          {% for i in range(1, 8) %}
-          <div class="likert-option">
-            <input
-              type="radio"
-              id="trust_{{ i }}"
-              name="trust"
-              value="{{ i }}"
-              required
-            />
-            <label for="trust_{{ i }}">{{ i }}</label>
-          </div>
-          {% endfor %}
+        <!-- Question 2 -->
+        <div class="question-box">
+            <div class="question-text">I verified the AI's answer before making my decision</div>
+            <div class="radio-group">
+                <div class="radio-option">
+                    <input type="radio" name="q2_verify" value="1" required>
+                    <label>Strongly<br>Disagree</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="q2_verify" value="2">
+                    <label>Disagree</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="q2_verify" value="3">
+                    <label>Somewhat<br>Disagree</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="q2_verify" value="4">
+                    <label>Neutral</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="q2_verify" value="5">
+                    <label>Somewhat<br>Agree</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="q2_verify" value="6">
+                    <label>Agree</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="q2_verify" value="7">
+                    <label>Strongly<br>Agree</label>
+                </div>
+            </div>
         </div>
-        <div class="likert-scale">
-          <div>Strongly<br />Disagree</div>
-          <div>Disagree</div>
-          <div>Somewhat<br />Disagree</div>
-          <div>Neutral</div>
-          <div>Somewhat<br />Agree</div>
-          <div>Agree</div>
-          <div>Strongly<br />Agree</div>
-        </div>
-      </div>
-    </div>
 
-    <div class="form-group">
-      <div class="likert-group">
-        <p>The AI assistant's reccomendation was helpful</p>
-        <div class="likert-scale">
-          {% for i in range(1, 8) %}
-          <div class="likert-option">
-            <input
-              type="radio"
-              id="help_{{ i }}"
-              name="helpfulness"
-              value="{{ i }}"
-              required
-            />
-            <label for="help_{{ i }}">{{ i }}</label>
-          </div>
-          {% endfor %}
+        <!-- Question 3 -->
+        <div class="question-box">
+            <div class="question-text">I relied on the AI's recommendation</div>
+            <div class="radio-group">
+                <div class="radio-option">
+                    <input type="radio" name="q3_rely" value="1" required>
+                    <label>Strongly<br>Disagree</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="q3_rely" value="2">
+                    <label>Disagree</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="q3_rely" value="3">
+                    <label>Somewhat<br>Disagree</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="q3_rely" value="4">
+                    <label>Neutral</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="q3_rely" value="5">
+                    <label>Somewhat<br>Agree</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="q3_rely" value="6">
+                    <label>Agree</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="q3_rely" value="7">
+                    <label>Strongly<br>Agree</label>
+                </div>
+            </div>
         </div>
-        <div class="likert-scale">
-          <div>Strongly<br />Disagree</div>
-          <div>Disagree</div>
-          <div>Somewhat<br />Disagree</div>
-          <div>Neutral</div>
-          <div>Somewhat<br />Agree</div>
-          <div>Agree</div>
-          <div>Strongly<br />Agree</div>
-        </div>
-      </div>
-    </div>
 
-    <button type="submit" class="btn">Next Question</button>
-  </form>
+        <!-- Question 4 -->
+        <div class="question-box">
+            <div class="question-text">I feel confident about my final answer</div>
+            <div class="radio-group">
+                <div class="radio-option">
+                    <input type="radio" name="q4_confidence" value="1" required>
+                    <label>Strongly<br>Disagree</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="q4_confidence" value="2">
+                    <label>Disagree</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="q4_confidence" value="3">
+                    <label>Somewhat<br>Disagree</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="q4_confidence" value="4">
+                    <label>Neutral</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="q4_confidence" value="5">
+                    <label>Somewhat<br>Agree</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="q4_confidence" value="6">
+                    <label>Agree</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="q4_confidence" value="7">
+                    <label>Strongly<br>Agree</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 5 -->
+        <div class="question-box">
+            <div class="question-text">I could have solved this without AI assistance</div>
+            <div class="radio-group">
+                <div class="radio-option">
+                    <input type="radio" name="q5_independent" value="1" required>
+                    <label>Strongly<br>Disagree</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="q5_independent" value="2">
+                    <label>Disagree</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="q5_independent" value="3">
+                    <label>Somewhat<br>Disagree</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="q5_independent" value="4">
+                    <label>Neutral</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="q5_independent" value="5">
+                    <label>Somewhat<br>Agree</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="q5_independent" value="6">
+                    <label>Agree</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="q5_independent" value="7">
+                    <label>Strongly<br>Agree</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 6 -->
+        <div class="question-box">
+            <div class="question-text">AI helped me understand the reasoning behind the choice I made</div>
+            <div class="radio-group">
+                <div class="radio-option">
+                    <input type="radio" name="q6_understanding" value="1" required>
+                    <label>Strongly<br>Disagree</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="q6_understanding" value="2">
+                    <label>Disagree</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="q6_understanding" value="3">
+                    <label>Somewhat<br>Disagree</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="q6_understanding" value="4">
+                    <label>Neutral</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="q6_understanding" value="5">
+                    <label>Somewhat<br>Agree</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="q6_understanding" value="6">
+                    <label>Agree</label>
+                </div>
+                <div class="radio-option">
+                    <input type="radio" name="q6_understanding" value="7">
+                    <label>Strongly<br>Agree</label>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="submit-btn">Next Question</button>
+    </form>
 </div>
+
+<style>
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.question-box {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+}
+
+.question-box:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.question-text {
+    color: #2c3e50;
+    font-size: 15px;
+    margin-bottom: 15px;
+    font-weight: 500;
+    line-height: 1.4;
+    padding: 0 20px;
+}
+
+.radio-group {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+    background: #f8f9fa;
+    padding: 12px;
+    border-radius: 6px;
+}
+
+.radio-option {
+    text-align: center;
+    flex: 1;
+}
+
+.radio-option input[type="radio"] {
+    margin: 0 auto 5px;
+    cursor: pointer;
+    display: block;
+}
+
+.radio-option label {
+    font-size: 11px;
+    color: #666;
+    cursor: pointer;
+    display: block;
+    line-height: 1.2;
+}
+
+.submit-btn {
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 25px;
+    font-size: 14px;
+    cursor: pointer;
+    display: block;
+    margin: 25px auto 0;
+    transition: background 0.2s ease;
+    min-width: 150px;
+}
+
+.submit-btn:hover {
+    background: #2980b9;
+}
+
+.radio-option input[type="radio"]:checked + label {
+    color: #3498db;
+    font-weight: 500;
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 15px;
+        margin: 10px;
+    }
+    
+    .question-text {
+        font-size: 14px;
+    }
+    
+    .radio-option label {
+        font-size: 10px;
+    }
+}
+</style>
+
 {% endblock %}
