@@ -1,6 +1,7 @@
 # Libraries
 import os
 import pprint
+import datetime
 
 # Imports
 from dotenv import load_dotenv, find_dotenv
@@ -83,17 +84,17 @@ def insert_user_response(responses):
 
     _id = insert_user(responses["email"])
 
+    # Check if user already exist in db
     if (_id == -1):
         print("User already exist!")
         return
 
-    responses["email"]
-    responses["uf_id"]
-    responses["question_order"]
-    responses["answers"]
-    responses["post_survey_answers"]
-    responses["final_survey_answers"]
-
+    # responses["uf_id"]
+    # responses["question_order"]
+    # responses["answers"]
+    # responses["post_survey_answers"]
+    # responses["final_survey_answers"]
+    # responses["chat_history"]
 
     users_collection = init_db()
     from bson.objectid import ObjectId
@@ -106,8 +107,16 @@ def insert_user_response(responses):
             "uf_id": responses["uf_id"],
             "question_order": responses["question_order"],
             "answers": responses["answers"],
+            "pre_survey_answers": responses["pre_survey_answers"],
             "post_survey_answers": responses["post_survey_answers"],
-            "final_survey_answers": responses["final_survey_answers"]
+            "final_survey_answers": responses["final_survey_answers"],
+            "chat_history": responses["chat_history"],
+            "firstName" : responses["firstName"],
+            "lastName" : responses["lastName"],
+            "classSchool" : responses["classSchool"],
+            "demographics" : responses["demographics"],
+            "timestamp" : datetime.datetime.now(),
+            "times" : responses["times"],
         }
     }
     result = users_collection.update_one(query, update)

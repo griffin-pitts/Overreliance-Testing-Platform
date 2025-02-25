@@ -184,7 +184,6 @@ questions = [
     }
 ]
 
-
 post_survey_questions = [
     {
         'question': 'How confident do you feel about your answer?',

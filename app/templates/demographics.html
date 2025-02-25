@@ -48,15 +48,17 @@
           </div>
 
           <div class="form-field">
-            <label>GPA</label>
-            <input
-              type="number"
-              name="GPA"
-              min="1"
-              max="4"
-              required
-              placeholder="Enter your GPA"
-            />
+            <label>Current GPA</label>
+            <select name="gpa" required>
+              <option value="">Select GPA range</option>
+              <option value="4.0">3.75 - 4.00</option>
+              <option value="3.75">3.50 - 3.74</option>
+              <option value="3.5">3.25 - 3.49</option>
+              <option value="3.25">3.00 - 3.24</option>
+              <option value="3.0">2.50 - 2.99</option>
+              <option value="2.5">Below 2.50</option>
+              <option value="none">Prefer not to disclose</option>
+            </select>
           </div>
         </div>
 
