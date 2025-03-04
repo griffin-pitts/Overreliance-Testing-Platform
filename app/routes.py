@@ -283,6 +283,7 @@ def pre_survey():
             "ai_use_cases": request.form.get("ai_use_cases"),
             "ai_risks": request.form.get("ai_risks"),
             "ai_prompting": request.form.get("ai_prompting"),
+            "ai_classroom_concerns": request.form.get("ai_classroom_concerns"),
         }
         session["pre_survey_data"] = survey_data
         return redirect(url_for("main.instructions"))
