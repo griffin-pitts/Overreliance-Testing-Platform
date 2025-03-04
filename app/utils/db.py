@@ -1,13 +1,12 @@
 # Libraries
 import os
 import pprint
+import datetime
 
 # Imports
 from dotenv import load_dotenv, find_dotenv
 from pymongo import MongoClient
 from urllib.parse import quote_plus
-from .encryption_utils import encrypt_email, decrypt_email
-
 
 
 # Functions for interacting with MongoDB
@@ -42,11 +41,11 @@ def find_user(user_email):
     users = users_collection.find()
 
     for user in users:
-        # Decrypt email
-        decrypted_email = decrypt_email(user.get("email"))
+        # Assign email
+        email = user.get("email")
 
         # Compare email
-        if decrypted_email == user_email:
+        if email == user_email:
             return True
   
     return False
@@ -57,13 +56,13 @@ def insert_user(user_email):
     # Check if user already exists
     if find_user(user_email):
         print("User already exists!")
-        return
+        return (-1)
     
-    # Encrypt email otherwise
-    encrypted_email = encrypt_email(user_email)
+    # Assign email otherwise
+    email = user_email
 
     data = {
-        "email": encrypted_email
+        "email": email
     }
 
     # Insert a new user into the database
@@ -81,14 +80,45 @@ def delete_user(user_email):
     # Delete a user by email
     return users_collection.delete_one({"_id": user_email})
 
-def insert_user_response(user_id, responses):
+def insert_user_response(responses):
+
+    _id = insert_user(responses["email"])
+
+    # Check if user already exist in db
+    if (_id == -1):
+        print("User already exist!")
+        return
+
+    # responses["uf_id"]
+    # responses["question_order"]
+    # responses["answers"]
+    # responses["post_survey_answers"]
+    # responses["final_survey_answers"]
+    # responses["chat_history"]
+
     users_collection = init_db()
     from bson.objectid import ObjectId
-    _id = ObjectId(user_id)
+   
 
     query = {"_id": _id}
 
-    update = {"$set": {"responses": responses}}
+    update = {
+        "$set": {
+            "uf_id": responses["uf_id"],
+            "question_order": responses["question_order"],
+            "answers": responses["answers"],
+            "pre_survey_answers": responses["pre_survey_answers"],
+            "post_survey_answers": responses["post_survey_answers"],
+            "final_survey_answers": responses["final_survey_answers"],
+            "chat_history": responses["chat_history"],
+            "firstName" : responses["firstName"],
+            "lastName" : responses["lastName"],
+            "classSchool" : responses["classSchool"],
+            "demographics" : responses["demographics"],
+            "timestamp" : datetime.datetime.now(),
+            "times" : responses["times"],
+        }
+    }
     result = users_collection.update_one(query, update)
 
     if result:
@@ -98,17 +128,3 @@ def insert_user_response(user_id, responses):
 
 
 # Add more functions as needed
-
-
-# Testing lines
-
-user_id = "66bf718f19aab530b26cd132"
-
-responses = {
-    "question_1": "choice_d",
-    "question_2": "choice_d",
-}
-
-# insert_user("user2@example.com")
-insert_user_response(user_id, responses)
-

@@ -1,0 +1,289 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="instruction-card">
+    <h1 class="title">Programming Quiz Instructions</h1>
+    
+    <div class="welcome-section">
+        <h2>Ready to Begin the Programming Quiz</h2>
+        <p>You're now ready to start the programming portion of our study on AI-assisted programming. In this section, you'll work with an AI assistant powered by OpenAI's GPT technology to answer programming questions.</p>
+    </div>
+
+    <div class="quiz-structure">
+        <h2>What to Expect</h2>
+        <div class="structure-grid">
+            <div class="structure-item">
+                <div class="number">1</div>
+                <p>Programming Questions with AI</p>
+            </div>
+            <div class="structure-item">
+                <div class="number">2</div>
+                <p>Post-Question Surveys</p>
+            </div>
+            <div class="structure-item">
+                <div class="number">3</div>
+                <p>Final Experience Survey</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="interaction-instructions">
+        <h2>How to Work with the AI Assistant</h2>
+        <div class="instruction-steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Get Initial Recommendation</h3>
+                    <p>For each programming question, you must first click the "Get Initial Recommendation" button to receive the AI's initial suggestion.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Ask Follow-up Questions</h3>
+                    <p>After receiving the initial recommendation, you can engage in a conversation with the AI:
+                        <ul>
+                            <li>Ask for explanations</li>
+                            <li>Request clarifications</li>
+                            <li>Challenge its responses</li>
+                            <li>Seek additional information</li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Make Your Decision</h3>
+                    <p>While the AI is here to assist you, the final answer choice is yours. Take your time to understand both the question and the AI's explanation.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3>Complete the Follow-up Survey</h3>
+                    <p>After each programming question, you'll answer a brief survey about your interaction with the AI.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="important-notes">
+        <h2>Important Notes</h2>
+        <ul>
+            <li>All interactions with the AI are recorded for research purposes</li>
+            <li>There are no right or wrong ways to interact with the AI - we want to observe your natural interaction</li>
+            <li>Take as much time as you need with each question</li>
+            <li>You'll complete a short survey after each programming question</li>
+            <li>The AI is here to assist, but the final decision is always yours</li>
+        </ul>
+    </div>
+
+    <div class="button-container">
+        <form method="GET" action="{{ url_for('main.quiz') }}">
+            <button type="submit" class="start-btn">Start Programming Quiz</button>
+        </form>
+    </div>
+</div>
+
+<style>
+.container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 20px;
+}
+
+.instruction-card {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.title {
+    color: #2c3e50;
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #eee;
+}
+
+.welcome-section {
+    margin-bottom: 30px;
+}
+
+h2 {
+    color: #2c3e50;
+    font-size: 22px;
+    margin-bottom: 15px;
+}
+
+.structure-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.structure-item {
+    text-align: center;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.number {
+    background: #3498db;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin: 0 auto 10px;
+}
+
+.structure-item p {
+    margin: 0;
+    color: #666;
+}
+
+.interaction-instructions {
+    margin: 30px 0;
+}
+
+.instruction-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.step {
+    display: flex;
+    align-items: flex-start;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    gap: 15px;
+}
+
+.step-number {
+    background: #3498db;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    flex-shrink: 0;
+    margin-top: 3px;
+}
+
+.step-content {
+    flex-grow: 1;
+}
+
+.step-content h3 {
+    color: #2c3e50;
+    font-size: 18px;
+    margin: 0 0 8px 0;
+    line-height: 1.4;
+}
+
+.step-content p {
+    color: #666;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.step-content ul {
+    margin: 8px 0 0 20px;
+    padding: 0;
+}
+
+.step-content li {
+    color: #666;
+    margin-bottom: 5px;
+    line-height: 1.4;
+}
+
+.important-notes {
+    background: #fff8dc;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 30px 0;
+}
+
+.important-notes ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.important-notes li {
+    color: #666;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.button-container {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.start-btn {
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 12px 35px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.start-btn:hover {
+    background: #2980b9;
+}
+
+@media (max-width: 600px) {
+    .container {
+        margin: 15px;
+        padding: 15px;
+    }
+
+    .instruction-card {
+        padding: 20px;
+    }
+
+    .title {
+        font-size: 24px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    .step {
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .step-number {
+        margin-top: 2px;
+    }
+
+    .structure-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+{% endblock %}

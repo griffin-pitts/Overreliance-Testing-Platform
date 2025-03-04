@@ -1,0 +1,98 @@
+{% extends "base.html" %} {% block content %}
+<div class="container">
+	<h2>Post-Survey</h2>
+
+	<form
+		method="POST"
+		action="{{ url_for('main.post_survey') }}"
+		class="survey-form"
+	>
+		<div class="form-group">
+			<div class="likert-group">
+				<hr size="1" class="hrline" color="f1f1f1" />
+				<p>I feel confident about the answer I provided</p>
+				<div>
+					<div class="likert-scale">
+						{% for i in range(1, 8) %}
+						<div class="likert-option">
+							<input
+								type="radio"
+								id="conf_{{ i }}"
+								name="confidence"
+								value="{{ i }}"
+								required
+							/>
+						</div>
+						{% endfor %}
+					</div>
+					<div class="likert-scale">
+						<div>Strongly<br />Disagree</div>
+						<div>Disagree</div>
+						<div>Somewhat<br />Disagree</div>
+						<div>Neutral</div>
+						<div>Somewhat<br />Agree</div>
+						<div>Agree</div>
+						<div>Strongly<br />Agree</div>
+					</div>
+				</div>
+
+				<hr size="1" class="hrline" color="f1f1f1" />
+				<p>I trusted the recommendation provided by the AI assistant</p>
+				<div>
+					<div class="likert-scale">
+						{% for i in range(1, 8) %}
+						<div class="likert-option">
+							<input
+								type="radio"
+								id="conf_{{ i }}"
+								name="trust"
+								value="{{ i }}"
+								required
+							/>
+						</div>
+						{% endfor %}
+					</div>
+					<div class="likert-scale">
+						<div>Strongly<br />Disagree</div>
+						<div>Disagree</div>
+						<div>Somewhat<br />Disagree</div>
+						<div>Neutral</div>
+						<div>Somewhat<br />Agree</div>
+						<div>Agree</div>
+						<div>Strongly<br />Agree</div>
+					</div>
+				</div>
+
+				<hr size="1" class="hrline" color="f1f1f1" />
+				<p>The AI assistant's reccomendation was helpful</p>
+				<div>
+					<div class="likert-scale">
+						{% for i in range(1, 8) %}
+						<div class="likert-option">
+							<input
+								type="radio"
+								id="conf_{{ i }}"
+								name="helpfulness"
+								value="{{ i }}"
+								required
+							/>
+						</div>
+						{% endfor %}
+					</div>
+					<div class="likert-scale">
+						<div>Strongly<br />Disagree</div>
+						<div>Disagree</div>
+						<div>Somewhat<br />Disagree</div>
+						<div>Neutral</div>
+						<div>Somewhat<br />Agree</div>
+						<div>Agree</div>
+						<div>Strongly<br />Agree</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<button type="submit" class="survey-btn">Next Question</button>
+	</form>
+</div>
+{% endblock %}

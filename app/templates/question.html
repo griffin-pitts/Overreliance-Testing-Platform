@@ -1,72 +1,186 @@
 {% extends "base.html" %} {% block content %}
-<h1>Question {{ question_number }}</h1>
-<p>{{ question['question'] }}</p>
 
-<form method="POST">
-  {% for option in question['options'] %}
-  <label class="option">
-    <input type="radio" name="answer" value="{{ option }}" required />
-    {{ option }}
-  </label>
-  {% endfor %}
-  <button type="submit" class="btn">Next</button>
-</form>
+<div class="container no-select">
+  <div class="question-section">
+    <h2>Question {{ question_number }}</h2>
+    <pre><code>{{ question['question'] }}</code></pre>
 
-<div class="chat-container">
-  <h2>Chat with our Bot</h2>
-  <div id="chat-history">
-    {% for sender, message in chat_history %}
-    <p><strong>{{ sender }}:</strong> {{ message }}</p>
-    {% endfor %}
+    <form id="question-form" method="POST">
+      {% for option in question['options'] %}
+      <div class="option">
+        <input
+          type="radio"
+          name="answer"
+          value="{{ option }}"
+          id="option-{{ loop.index }}"
+          disabled
+        />
+        <label for="option-{{ loop.index }}">{{ option }}</label>
+      </div>
+      {% endfor %}
+    </form>
   </div>
-  <form id="chat-form" onsubmit="event.preventDefault(); sendMessage();">
-    <input type="text" id="chat-message" placeholder="Type your message..." />
-    <button type="submit" class="btn">Send</button>
-  </form>
+
+  <hr />
+
+  <div class="center" style="margin-block: 20px">
+    <button class="btn" id="get-recommendation">
+      Get Initial Recommendation
+    </button>
+  </div>
+
+  <div class="chat-section">
+    <div id="chat-history" class="chat-history">
+      <div id="chat-messages">
+        {% for sender, message in chat_history %} {% if sender == 'Divider' %}
+        <div class="question-divider">{{ message }}</div>
+        {% else %}
+        <div
+          class="chat-message {{ 'user-message' if sender == 'User' else 'bot-message' }}"
+        >
+          <strong>{{ sender }}:</strong> {{ message }}
+        </div>
+        {% endif %} {% endfor %}
+      </div>
+    </div>
+
+    <div id="chat-div">
+      <div class="spread">
+        <input
+          type="text"
+          class="spread-grow"
+          id="user-message"
+          placeholder="Ask the AI assistant..."
+          disabled
+        />
+        <button
+          id="send-message"
+          class="btn"
+          style="margin-left: 10px"
+          disabled
+        >
+          Send
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="center" style="padding-top: 30px">
+    <button
+      type="submit"
+      form="question-form"
+      disabled
+      id="submit-answer"
+      class="btn"
+    >
+      Next
+    </button>
+  </div>
 </div>
 
-<!-- <script>
-  function sendMessage() {
-    var message = document.getElementById("chat-message").value;
-    fetch("/chat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: "message=" + encodeURIComponent(message),
-    })
-      .then((response) => response.text())
-      .then((data) => {
-        var chatHistory = document.getElementById("chat-history");
-        chatHistory.innerHTML +=
-          "<p><strong>User:</strong> " + message + "</p>";
-        chatHistory.innerHTML += "<p>" + data + "</p>";
-        document.getElementById("chat-message").value = "";
-        chatHistory.scrollTop = chatHistory.scrollHeight;
-      });
-  }
-</script> -->
-
 <script>
-  function sendMessage() {
-    var message = document.getElementById("chat-message").value;
-    fetch("/chat", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ message: message }),
-    })
-      .then((response) => response.text())
-      .then((data) => {
-        var chatHistory = document.getElementById("chat-history");
-        chatHistory.innerHTML +=
-          "<p><strong>User:</strong> " + message + "</p>";
-        chatHistory.innerHTML += "<p>" + data + "</p>";
-        document.getElementById("chat-message").value = "";
-        chatHistory.scrollTop = chatHistory.scrollHeight;
-      });
+  let recommendationReceived = false;
+
+  function scrollToBottom() {
+    const chatHistory = document.getElementById("chat-history");
+    chatHistory.scrollTop = chatHistory.scrollHeight;
   }
+  // Scroll to bottom on page load
+  window.onload = scrollToBottom;
+
+  function typeWriter(element, text, speed = 30) {
+    return new Promise((resolve) => {
+      let i = 0;
+      element.innerHTML = element.innerHTML.replace(text, "");
+      const initialContent = element.innerHTML;
+
+      function type() {
+        if (i < text.length) {
+          element.innerHTML = initialContent + text.substring(0, i + 1);
+          i++;
+          setTimeout(type, speed);
+          scrollToBottom();
+        } else {
+          resolve();
+        }
+      }
+      type();
+    });
+  }
+
+  async function addMessageWithTyping(message, isUser = false) {
+    const chatHistory = document.getElementById("chat-messages");
+    const messageDiv = document.createElement("div");
+    messageDiv.className = `chat-message ${
+      isUser ? "user-message" : "bot-message"
+    }`;
+    messageDiv.innerHTML = `<strong>${isUser ? "You" : "Assistant"}:</strong> `;
+    chatHistory.appendChild(messageDiv);
+    scrollToBottom();
+
+    await typeWriter(messageDiv, message);
+    return messageDiv;
+  }
+
+  document
+    .getElementById("get-recommendation")
+    .addEventListener("click", async () => {
+      if (recommendationReceived) return;
+
+      try {
+        await addMessageWithTyping(
+          "What's your recommended answer to this question?",
+          true
+        );
+
+        const response = await fetch("/get_initial_recommendation");
+        const data = await response.json();
+
+        await addMessageWithTyping(data.recommendation, false);
+
+        recommendationReceived = true;
+        document.getElementById("get-recommendation").disabled = true;
+        document.getElementById("user-message").disabled = false;
+        document.getElementById("send-message").disabled = false;
+
+        const radioInputs = document.querySelectorAll('input[type="radio"]');
+        radioInputs.forEach((input) => (input.disabled = false));
+        document.getElementById("submit-answer").disabled = false;
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    });
+
+  document
+    .getElementById("send-message")
+    .addEventListener("click", async () => {
+      const messageInput = document.getElementById("user-message");
+      const message = messageInput.value.trim();
+      if (!message) return;
+
+      try {
+        await addMessageWithTyping(message, true);
+
+        const response = await fetch("/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message }),
+        });
+
+        const data = await response.json();
+        await addMessageWithTyping(data.response, false);
+
+        messageInput.value = "";
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    });
+
+  document.getElementById("user-message").addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+      document.getElementById("send-message").click();
+    }
+  });
 </script>
 
 {% endblock %}

@@ -13,12 +13,14 @@ python3 -m venv <virtual_environment_name>
 <virtual_environment_name>\Scripts\activate
 ```
 
-install the Zango Open Source Platform by running the following command in your terminal or command prompt
+install
 
 ```shell
 git clone https://github.com/griffin-pitts/Overreliance-Testing-Platform.git
 pip install -r requirements.txt
 ```
+
+flask --app app run --debug
 
 This command will download and install the latest required dependencies.
 
